@@ -155,7 +155,8 @@ MonoBehaviour:
   - {fileID: 1260286205}
   - {fileID: 566033568}
   throwObject: {fileID: 7521614515235451898, guid: 93d6639d3f5c46e49aced250e727c817, type: 3}
-  UI: {fileID: 405125155}
+  ui: {fileID: 405125155}
+  bubble: {fileID: 637037354}
 --- !u!4 &138086984
 Transform:
   m_ObjectHideFlags: 0
@@ -593,6 +594,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &637037354 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 769558036654910780, guid: bde1cb14feb210d4cba05d17203c2a43, type: 3}
+  m_PrefabInstance: {fileID: 7602043076722037540}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &970139803 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9019565165040909701, guid: 778526ba1bc93b44b987b5aafbc8cfd3, type: 3}
@@ -1222,6 +1228,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 405125159}
     m_Modifications:
+    - target: {fileID: 1570948482398413542, guid: bde1cb14feb210d4cba05d17203c2a43, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570948482398413542, guid: bde1cb14feb210d4cba05d17203c2a43, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570948482398413542, guid: bde1cb14feb210d4cba05d17203c2a43, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 38
+      objectReference: {fileID: 0}
     - target: {fileID: 4787222834663347392, guid: bde1cb14feb210d4cba05d17203c2a43, type: 3}
       propertyPath: m_Name
       value: Cup

@@ -1,13 +1,16 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ThrowObject : MonoBehaviour
 {
     private Vector3 _startPos;
-    private GameObject _cup;
+    private GameObject _bubbleGameObject;
     private float _startTime;
     [SerializeField] private float travelDuration = 2.0f; // Duration in seconds
-
-    [SerializeField] private float maxScaleMultiplier;
+    
+    public event Action OnThrowObjectHitBubble;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,7 +18,7 @@ public class ThrowObject : MonoBehaviour
         _startPos = transform.position;
         
         // Find the cup object
-        _cup = GameObject.Find("Cup");
+        _bubbleGameObject = GameObject.Find("Bubble");
         
         // Record the start time
         _startTime = Time.time;
@@ -26,28 +29,13 @@ public class ThrowObject : MonoBehaviour
     {
         // Move towards the cup with a constant duration
         float t = (Time.time - _startTime) / travelDuration;
-        transform.position = Vector3.Lerp(_startPos, _cup.transform.position, t);
-        // Depending on the distance between the startPos and the cup, make the image slightly larger in the in the middle to simulate it getting closer to the camera
+        transform.position = Vector3.Lerp(_startPos, _bubbleGameObject.transform.position, t);
         
-        // Calculate the midpoint between the start position and the cup
-        Vector3 midpoint = (_startPos + _cup.transform.position) / 2;
-
-        // Calculate the distance to the midpoint and the cup
-        float distanceToMidpoint = Vector3.Distance(transform.position, midpoint);
-        float distanceToCup = Vector3.Distance(transform.position, _cup.transform.position);
-        float totalDistance = Vector3.Distance(_startPos, _cup.transform.position);
-
-        // Adjust the scale based on the distance to the midpoint and the cup
-        float scaleMultiplier = 1.0f + (1.0f - (distanceToMidpoint / (totalDistance / 2))) * maxScaleMultiplier;
-        if (distanceToCup < totalDistance / 2)
-        {
-            scaleMultiplier = 1.0f + (distanceToCup / (totalDistance / 2)) * maxScaleMultiplier;
-        }
-        transform.localScale = new Vector3(scaleMultiplier, scaleMultiplier, scaleMultiplier);
-        
+        float distanceToCup = Vector3.Distance(transform.position, _bubbleGameObject.transform.position);
         // Destroy if we've arrived to the cup
         if (distanceToCup < 0.1f)
         {
+            OnThrowObjectHitBubble?.Invoke();
             Destroy(gameObject);
         }
     }
