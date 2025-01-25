@@ -12,6 +12,6 @@ public class PlayerIndicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.position = gameManager.GetCurrentPlayer().transform.position;
+        transform.position = gameManager.GetCurrentPlayer().transform.position;
     }
 }

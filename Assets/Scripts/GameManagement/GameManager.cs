@@ -53,11 +53,18 @@ public class GameManager : MonoBehaviour
 
         // player initialization phase
         Players = new List<GameObject>();
-        Debug.Log(playerTemplates);
+
+        // clears living states from previous game
+        for(int i = 0; i < 4; i++)
+        {
+            playerTemplates[i].PlayerAlive = false;
+        }
+
+        // enables however many players were selected in main menu
         for(int i = 0; i < numPlayers.numberOfPlayers; i++)
         {
-            //Players.Add(Instantiate(playerObjects[i], new Vector3(playerTemplates[i].xPos, playerTemplates[i].yPos, 0), Quaternion.identity));
             playerObjects[i].SetActive(true);
+            Players.Add(playerObjects[i]);
             playerTemplates[i].PlayerAlive = true;
             Debug.Log("Player " + i + " added successfully");
         }
@@ -171,10 +178,10 @@ public class GameManager : MonoBehaviour
     // Helpers
     
     // Getter for current player
-    /*
+    
     public GameObject GetCurrentPlayer()
     {
         return Players[CurrentPlayerIndex];
     } // GetCurrentPlayer
-    */
+    
 } // GameManager
