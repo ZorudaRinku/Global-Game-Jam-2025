@@ -21,6 +21,7 @@ public enum RoundState
 public class GameManager : MonoBehaviour
 {
     // Player Controls/Turn Order
+    public NumPlayers numPlayers;
     public int CurrentPlayerIndex { get; private set; }
     private int _currentPlayerSentObjects;
     [FormerlySerializedAs("_players")] [SerializeField] private GameObject[] playerObjects;
