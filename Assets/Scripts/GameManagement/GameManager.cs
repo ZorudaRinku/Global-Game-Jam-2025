@@ -53,11 +53,13 @@ public class GameManager : MonoBehaviour
 
         // player initialization phase
         Players = new List<GameObject>();
-
+        Debug.Log(playerTemplates);
         for(int i = 0; i < numPlayers.numberOfPlayers; i++)
         {
-            Players.Add(Instantiate(playerObjects[i], new Vector3(playerTemplates[i].xPos, playerTemplates[i].yPos, 0), Quaternion.identity));
+            //Players.Add(Instantiate(playerObjects[i], new Vector3(playerTemplates[i].xPos, playerTemplates[i].yPos, 0), Quaternion.identity));
+            playerObjects[i].SetActive(true);
             playerTemplates[i].PlayerAlive = true;
+            Debug.Log("Player " + i + " added successfully");
         }
 
 
