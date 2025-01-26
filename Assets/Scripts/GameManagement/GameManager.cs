@@ -1,8 +1,11 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public enum GameState
@@ -22,18 +25,33 @@ public class GameManager : MonoBehaviour
 {
     // Player Controls/Turn Order
     public NumPlayers numPlayers;
+    public List<GameObject> Players;
     public int CurrentPlayerIndex { get; private set; }
-    private int _currentPlayerSentObjects;
     [FormerlySerializedAs("_players")] [SerializeField] private GameObject[] playerObjects;
-    [SerializeField] private GameObject throwObject;
+    [FormerlySerializedAs("playertemplates")] [SerializeField] private PlayerTemplate[] playerTemplates;
+    [FormerlySerializedAs("itemobjects")][SerializeField] private GameObject[] itemObjects;
     [FormerlySerializedAs("UI")] [SerializeField] private GameObject ui;
+    [SerializeField] public GameObject ItemNameText;
+    [SerializeField] public GameObject ItemDescriptionText;
+    [SerializeField] private GameObject throwObject;
     [SerializeField] private GameObject bubble;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip bubblePop;
+    [SerializeField] private AudioClip bubbleRegen;
+    [SerializeField] private AudioClip loss; // || | |/ | |_
+    [SerializeField] private AudioClip win;
+    [SerializeField] private AudioClip useItem;
+    [SerializeField] private AudioClip nextPlayer;
     private Animator _bubbleAnimator;
-    public Dictionary<GameObject, bool> Players { get; private set; }
+    private bool cancelPending;
+    private bool turnOrderSetClockwise;
     
     // Bubble Variables
     private int _bubblePopThreshold;
     private int _bubblePopCount;
+    
+    // Inventory Variables
+    public int currentInventoryIndex;
 
     // State Machine
 
@@ -46,37 +64,60 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
+        // initialization phase
         _bubblePopThreshold = Random.Range(2, 10);
         _bubbleAnimator = bubble.GetComponent<Animator>();
-        Players = new Dictionary<GameObject, bool>();
-        foreach (var player in playerObjects)
+        cancelPending = false;
+        turnOrderSetClockwise = false;
+        Players = new List<GameObject>();
+
+        // clears living states from previous game
+        for (int i = 0; i < 4; i++)
         {
-            Players.Add(player, true); // Initialize all players as alive
+            playerTemplates[i].PlayerAlive = false;
         }
-        
+
+        // enables however many players were selected in main menu
+        for (int i = 0; i < numPlayers.numberOfPlayers; i++)
+        {
+            playerTemplates[i].PlayerAlive = true;
+            playerObjects[i].SetActive(true);
+            Players.Add(playerObjects[i]);
+        }
+
         CurrentGameState = GameState.Game; // TODO: Change to Lobby when Menu is implemented
         CurrentRoundState = RoundState.InProgress;
+
+        // give starting items to players
+        GiveItemsToPlayers();
+        PrintItemText();
+        UpdateInventoryUI();
+        UpdateAnimators();
         
         // Subscribe to bubble animation notifications
+        bubble.GetComponent<Bubble>().OnBubblePopStarted += HandleBubbleStartPop; // After the bubble pop animation finishes, reset the round
         bubble.GetComponent<Bubble>().OnBubblePopFinished += HandleBubbleFinishPop; // After the bubble pop animation finishes, reset the round
+        bubble.GetComponent<Bubble>().OnBubbleResetStarted += HandleBubbleStartReset; // After the bubble reset animation finishes, start the next round
         bubble.GetComponent<Bubble>().OnBubbleResetFinished += HandleBubbleFinishReset; // After the bubble reset animation finishes, start the next round
-    }
+    } // start
 
     // Methods
     
     public void ThrowObject(InputAction.CallbackContext context) // Triggered by Input Manager (Space or A)
     {
+        // check if game is over before throwing object
+        if (CurrentGameState == GameState.Lobby)
+        {
+            ReturnToMainMenu();
+        }
+
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
         
         if (CurrentRoundState != RoundState.InProgress) return; // Player should not be able to throw object while the bubble is popping or resetting
-        
-        GameObject throwable = Instantiate(throwObject, GetCurrentPlayer().transform.GetChild(2).transform.position, Quaternion.identity); // Spawn throwable object at player's hand
-        throwable.transform.SetParent(ui.transform); // Set the throwable object as a child of the UI or else it will not be visible
+
+        GameObject throwable = Players[CurrentPlayerIndex].GetComponent<Player>().ThrowObject();
         throwable.GetComponent<ThrowObject>().OnThrowObjectHitBubble += HandleBubbleHit; // Subscribe to the event of the object hitting the bubble
-        _currentPlayerSentObjects++;
-        
-        Debug.Log($"{GetCurrentPlayer().name} Threw Object");
-    }
+    } // ThrowObject
 
     private void HandleBubbleHit() // Triggered by ThrowObject.cs action event
     {
@@ -91,78 +132,255 @@ public class GameManager : MonoBehaviour
         }
         
         Debug.Log("Bubble Hit " + _bubblePopCount + "/" + _bubblePopThreshold);
+    } // HandleBubbleHit
+
+    private void HandleBubbleStartPop() // Triggered by Animation Event
+    {
+        audioSource.PlayOneShot(bubblePop);
     }
     
     private void HandleBubbleFinishPop() // Triggered by Bubble.cs action event
     {
         // Set the current player to dead as the bubble has popped
-        Players[GetCurrentPlayer()] = false;
-        
+        Players[CurrentPlayerIndex].GetComponent<Player>().alive = false;
+        Players[CurrentPlayerIndex].transform.GetChild(1).GetComponent<Animator>().SetBool("Dead", true);
+
         // Move on to the next player
         MoveToNextPlayer();
         
-        // Check if there is only one player left
         int alivePlayers = 0;
+        int winnerNumber = 0;
+        
+        // Check if there is only one player left
         foreach (var player in Players)
         {
-            if (player.Value)
+            if (player.GetComponent<Player>().alive)
             {
                 alivePlayers++;
+                winnerNumber = player.GetComponent<Player>().number;
             }
         }
-        
+
+        // set game state to end if only one player remains
         if (alivePlayers == 1)
         {
-            Debug.Log("Game Over");
+            Debug.Log("Player " + winnerNumber + " wins!");
+            audioSource.PlayOneShot(win);
             CurrentGameState = GameState.Lobby;
             return;
         }
         
         // Reset the bubble
         _bubbleAnimator.SetTrigger("Reset");
-    }
+    } // HandleBubbleFinishPop
+
+    private void HandleBubbleStartReset() // Triggered by Animation Event
+    {
+        audioSource.PlayOneShot(bubbleRegen);
+    } // HandleBubbleStartReset
     
     private void HandleBubbleFinishReset() // Triggered by Bubble.cs action event
     {
         _bubblePopCount = 0;
         _bubblePopThreshold = Random.Range(2, 10);
+        GiveItemsToPlayers();
         CurrentRoundState = RoundState.InProgress;
-    }
+    } // HandleBubbleFinishReset
 
     public void EndTurn(InputAction.CallbackContext context) // Triggered by Input Manager (Enter or B)
     {
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
-
         if (GameObject.Find("ThrowObject(Clone)") != null) return; // Player should not be able to end their turn while the object is still in the air
-        
         if (CurrentRoundState != RoundState.InProgress) return; // Player should not be able to end their turn while the bubble is popping or resetting
-        
-        if (_currentPlayerSentObjects == 0) return; // Player should not be able to end their turn without throwing an object
-
-        Debug.Log(GetCurrentPlayer().name + " Ended Turn");
-
-        MoveToNextPlayer();
-    }
-
-    private void MoveToNextPlayer() // Move on to the next player
-    {
-        // Increment the current player index, skip dead players, and loop back to the first player if necessary
-        do
+        if (Players[CurrentPlayerIndex].GetComponent<Player>().EndTurn())
         {
-            CurrentPlayerIndex++;
-            if (CurrentPlayerIndex >= playerObjects.Length)
-            {
-                CurrentPlayerIndex = 0;
-            }
-        } while (!Players[GetCurrentPlayer()]);
-        _currentPlayerSentObjects = 0;
-    }
+            MoveToNextPlayer();
+            Debug.Log(Players[CurrentPlayerIndex].name + " Ended Turn");
+        }
+    } // EndTurn
 
-    // Helpers
+    public void MoveToNextPlayer() // Move on to the next player
+    {
+        audioSource.PlayOneShot(nextPlayer);
+        ResetInventoryUI();
+        CurrentPlayerIndex = GetNextPlayerIndex();
+        UpdateInventoryUI();
+        UpdateAnimators();
+    } // MoveToNextPlayer
     
-    // Getter for current player
+    private void UpdateAnimators()
+    {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            Players[i].transform.GetChild(1).GetComponent<Animator>().SetBool("Active", i == CurrentPlayerIndex);
+        }
+    } // UpdateAnimators
+
+    private void ResetInventoryUI()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(i).localScale = new Vector3(1, 1, 1);
+        }
+    } // ResetInventoryUI
+
+    private void UpdateInventoryUI()   
+    {
+        ResetInventoryUI();
+        ResetItemText();
+        Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(currentInventoryIndex).localScale = new Vector3(1.2f, 1.2f, 1.2f);
+    } // UpdateInventoryUI
+
+    public void InventoryLeft(InputAction.CallbackContext context)
+    {
+        if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
+        
+        currentInventoryIndex--;
+        if (currentInventoryIndex < 0)
+        {
+            currentInventoryIndex = 3;
+        }
+
+        UpdateInventoryUI();
+        PrintItemText();
+    } // InventoryLeft
+    
+    public void InventoryRight(InputAction.CallbackContext context)
+    {
+        if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
+        
+        currentInventoryIndex++;
+        if (currentInventoryIndex > 3)
+        {
+            currentInventoryIndex = 0;
+        }
+
+        UpdateInventoryUI();
+        PrintItemText();
+    } // InventoryRight
+
+    public void InventoryUse(InputAction.CallbackContext context)
+    {
+        if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
+
+        if (Players[CurrentPlayerIndex].GetComponent<Player>().UseItem(currentInventoryIndex))
+        {
+            audioSource.PlayOneShot(useItem);
+        }
+        
+        UpdateInventoryUI();
+    } // InventoryUse
+
+    // Grants two random items to each player that is alive
+    public void GiveItemsToPlayers()
+    {
+        // loop through players, only granting items to players that are alive
+        for (int i = 0; i < numPlayers.numberOfPlayers; i++)
+        {
+            Debug.Log("Player " + i + " alive: " + Players[i].GetComponent<Player>().alive);
+            //if (Players[i].GetComponent<Player>().alive)
+            //{
+                Debug.Log("Adding random item to player " + i);
+                // give two random items to current player
+                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[Random.Range(0, itemObjects.Length)]);
+                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[Random.Range(0, itemObjects.Length)]);
+            //}
+        }
+    } // GiveItemsToPlayers
+
+    // Removes all inventory items from each player
+    public void RemoveItemsFromAllPlayers()
+    {
+        // loop through each player
+        for (int i = 0; i < numPlayers.numberOfPlayers; i++)
+        {
+            // verify player is alive before making changes
+            if (Players[i].GetComponent<Player>().alive)
+            {
+                // loop through each inventory slot, and delete each item
+                for (int j = 0; j < 4; j++)
+                {
+                    Players[i].GetComponent<Player>().RemoveItemFromInventory(j);
+                }
+            }
+        }
+        // give two items back to players. 
+        GiveItemsToPlayers();
+    } // RemoveItemsFromAllPlayers
+
+    private void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("StartMenu");
+    } // ReturnToMainMenu
+
+    public void SetCancelPending(bool value)
+    {
+        cancelPending = value;
+    } // SetCancelPending
+
+    public void SetTurnOrderSetClockwise(bool value)
+    {
+        turnOrderSetClockwise = value;
+    } // SetTurnOrderSetClockwise
+
     public GameObject GetCurrentPlayer()
     {
-        return playerObjects[CurrentPlayerIndex];
-    }
-}
+        return Players[CurrentPlayerIndex];
+    } // GetCurrentPlayer
+
+    public int GetBubbleStatus()
+    {
+        return _bubblePopThreshold - _bubblePopCount;
+    } // GetBubbleStatus
+
+    public int GetCurrentPlayerIndex()
+    {
+        return CurrentPlayerIndex;
+    } // CurrentPlayerIndex
+
+    public int GetNextPlayerIndex()
+    {
+        // Increment the current player index, skip dead players, and loop back to the first player if necessary
+        int tempIndex = CurrentPlayerIndex;
+        do
+        {
+            // handles turn order direction
+            if (!turnOrderSetClockwise) tempIndex++;
+            else tempIndex--;
+
+            if (tempIndex >= Players.Count)
+            {
+                tempIndex = 0;
+            } else if (tempIndex < 0)
+            {
+                tempIndex = Players.Count - 1;
+            }
+        } while (!Players[tempIndex].GetComponent<Player>().alive);
+
+        return tempIndex;
+    } // GetNextPlayerIndex
+
+    public bool GetCancelPending()
+    {
+        return cancelPending;
+    } // GetCancelPending
+    
+    public bool GetTurnOrderSetClockwise()
+    {
+        return turnOrderSetClockwise;
+    } // GetTurnOrderSetClockwise
+
+    // Print Selected item name and description to the screen
+    private void PrintItemText()
+    {
+        ItemNameText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemName(currentInventoryIndex);
+        ItemDescriptionText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemDescription(currentInventoryIndex);
+    } // PrintItemText
+
+    private void ResetItemText()
+    {
+        ItemNameText.GetComponent<TextMeshProUGUI>().text = null;
+        ItemDescriptionText.GetComponent<TextMeshProUGUI>().text = null;
+    } // ResetItemText
+
+} // GameManager
