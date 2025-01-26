@@ -43,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -109,20 +109,20 @@ TextureImporter:
       name: playericborder_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 2
-        width: 60
-        height: 60
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ef6486d0343a03160800000000000000
-      internalID: 7003276928944195326
+      spriteID: 3e0de84622d8b034ba8a543e40e861ae
+      internalID: 1522541894
       vertices: []
       indices: 
       edges: []
@@ -141,10 +141,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b8b3e0920747e2920800000000000000
-      internalID: 2967437229557693323
+      spriteID: ab10bf08b858a83458779f31a4d677a8
+      internalID: 417545322
       vertices: []
       indices: 
       edges: []
@@ -153,9 +153,9 @@ TextureImporter:
       name: playericborder_2
       rect:
         serializedVersion: 2
-        x: 127
+        x: 128
         y: 0
-        width: 65
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -163,10 +163,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1969c88ca93f72f90800000000000000
-      internalID: -6978341251472124271
+      spriteID: dee098db6925e6c4a898a4c328b2f003
+      internalID: 443112647
       vertices: []
       indices: 
       edges: []
@@ -175,7 +175,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 509eca868adadd54a810bccc350fe97a
     internalID: 0
     vertices: []
     indices: 
@@ -184,7 +184,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      playericborder_0: 1522541894
+      playericborder_1: 417545322
+      playericborder_2: 443112647
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
