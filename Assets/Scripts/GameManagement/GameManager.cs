@@ -348,12 +348,12 @@ public class GameManager : MonoBehaviour
             if (!turnOrderSetClockwise) tempIndex++;
             else tempIndex--;
 
-            if (tempIndex >= playerObjects.Length)
+            if (tempIndex >= Players.Count)
             {
                 tempIndex = 0;
             } else if (tempIndex < 0)
             {
-                tempIndex = playerObjects.Length - 1;
+                tempIndex = Players.Count - 1;
             }
         } while (!Players[tempIndex].GetComponent<Player>().alive);
 
