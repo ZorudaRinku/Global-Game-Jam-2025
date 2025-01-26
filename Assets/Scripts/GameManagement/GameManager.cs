@@ -209,13 +209,13 @@ public class GameManager : MonoBehaviour
     public void GiveItemsToPlayers()
     {
         // loop through players, only granting items to players that are alive
-        for (int i = 0; i < Players.Length; i++)
+        for (int i = 0; i < numPlayers.numberOfPlayers; i++)
         {
             if (Players[i].GetComponent<Player>().alive)
             {
                 // give two random items to current player
-                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects([Random.Range(0, itemObjects.Length - 1)]));
-                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects([Random.Range(0, itemObjects.Length - 1)]));
+                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[Random.Range(0, itemObjects.Length - 1)]);
+                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[Random.Range(0, itemObjects.Length - 1)]);
             }
         }
     } // GiveItemsToPlayers
