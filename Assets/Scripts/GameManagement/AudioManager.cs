@@ -4,6 +4,22 @@ using UnityEngine.Serialization;
 
 public class AudioManager : MonoBehaviour
 {
+    private static AudioManager _instance;
+    
+    void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+    
     private AudioSource _audioSource;
     [FormerlySerializedAs("_audioClips")] [SerializeField] private AudioClip[] audioClips;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
