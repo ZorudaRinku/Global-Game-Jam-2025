@@ -1,22 +1,16 @@
 fileFormatVersion: 2
-guid: b7ceb92b5e467124c88410fc86f6915d
+guid: 6b2e52bc4f79e7840bbb0207ad8c20a0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8040173535363486113
-    second: coinStack_0
+      213: 7003276928944195326
+    second: playericborder_0
   - first:
-      213: 5752436113813919661
-    second: coinStack_1
+      213: 2967437229557693323
+    second: playericborder_1
   - first:
-      213: -6798652093107323655
-    second: coinStack_2
-  - first:
-      213: -2028918439647433194
-    second: coinStack_3
-  - first:
-      213: -1217333709441383179
-    second: coinStack_4
+      213: -6978341251472124271
+    second: playericborder_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -108,43 +102,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: coinStack_0
+      name: playericborder_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 0
-        width: 37
-        height: 32
+        x: 2
+        y: 2
+        width: 60
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +121,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f5ea92ca4c09b6090800000000000000
-      internalID: -8040173535363486113
+      spriteID: ef6486d0343a03160800000000000000
+      internalID: 7003276928944195326
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: coinStack_1
+      name: playericborder_1
       rect:
         serializedVersion: 2
         x: 64
         y: 0
-        width: 38
-        height: 53
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: da7d105fa22c4df40800000000000000
-      internalID: 5752436113813919661
+      spriteID: b8b3e0920747e2920800000000000000
+      internalID: 2967437229557693323
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: coinStack_2
+      name: playericborder_2
       rect:
         serializedVersion: 2
-        x: 113
+        x: 127
         y: 0
-        width: 46
-        height: 74
+        width: 65
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,52 +165,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9fc3fde21f556a1a0800000000000000
-      internalID: -6798652093107323655
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: coinStack_3
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 0
-        width: 47
-        height: 107
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 61e2396cd65d7d3e0800000000000000
-      internalID: -2028918439647433194
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: coinStack_4
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 0
-        width: 47
-        height: 125
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5f443a3e0792b1fe0800000000000000
-      internalID: -1217333709441383179
+      spriteID: 1969c88ca93f72f90800000000000000
+      internalID: -6978341251472124271
       vertices: []
       indices: 
       edges: []
@@ -260,12 +184,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      coinStack_0: -8040173535363486113
-      coinStack_1: 5752436113813919661
-      coinStack_2: -6798652093107323655
-      coinStack_3: -2028918439647433194
-      coinStack_4: -1217333709441383179
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

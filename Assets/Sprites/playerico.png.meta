@@ -1,22 +1,37 @@
 fileFormatVersion: 2
-guid: b7ceb92b5e467124c88410fc86f6915d
+guid: b8d02adbdf4430e41843100fe790e737
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8040173535363486113
-    second: coinStack_0
+      213: -1624401866264274201
+    second: playerico_0
   - first:
-      213: 5752436113813919661
-    second: coinStack_1
+      213: -3021779245973547015
+    second: playerico_1
   - first:
-      213: -6798652093107323655
-    second: coinStack_2
+      213: 2692810278772634224
+    second: playerico_2
   - first:
-      213: -2028918439647433194
-    second: coinStack_3
+      213: 2596611471178741376
+    second: playerico_3
   - first:
-      213: -1217333709441383179
-    second: coinStack_4
+      213: -8535141657220570814
+    second: playerico_4
+  - first:
+      213: 2989174586473632566
+    second: playerico_5
+  - first:
+      213: 5746553727787802969
+    second: playerico_6
+  - first:
+      213: 7325827243993202481
+    second: playerico_7
+  - first:
+      213: 2913294966385330674
+    second: playerico_8
+  - first:
+      213: 4126167930746142798
+    second: playerico_9
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -108,43 +123,193 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: coinStack_0
+      name: playerico_0
       rect:
         serializedVersion: 2
-        x: 8
+        x: 19
+        y: 69
+        width: 26
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ea16dceb17f479e0800000000000000
+      internalID: -1624401866264274201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerico_1
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 91
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f7591e29cb7016d0800000000000000
+      internalID: -3021779245973547015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerico_2
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 69
+        width: 26
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07273c17ea8ce5520800000000000000
+      internalID: 2692810278772634224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerico_3
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 91
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08630572064090420800000000000000
+      internalID: 2596611471178741376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerico_4
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 69
+        width: 26
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 241aab542e51d8980800000000000000
+      internalID: -8535141657220570814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerico_5
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 91
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 633d266f27eab7920800000000000000
+      internalID: 2989174586473632566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerico_6
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 15
+        width: 43
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9512d7b3b2cdfbf40800000000000000
+      internalID: 5746553727787802969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerico_7
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 14
+        width: 43
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13ff71480119aa560800000000000000
+      internalID: 7325827243993202481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerico_8
+      rect:
+        serializedVersion: 2
+        x: 15
         y: 0
         width: 37
-        height: 32
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +318,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f5ea92ca4c09b6090800000000000000
-      internalID: -8040173535363486113
+      spriteID: 2f9c45d265a1e6820800000000000000
+      internalID: 2913294966385330674
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: coinStack_1
+      name: playerico_9
       rect:
         serializedVersion: 2
-        x: 64
+        x: 77
         y: 0
-        width: 38
-        height: 53
+        width: 39
+        height: 13
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,74 +340,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: da7d105fa22c4df40800000000000000
-      internalID: 5752436113813919661
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: coinStack_2
-      rect:
-        serializedVersion: 2
-        x: 113
-        y: 0
-        width: 46
-        height: 74
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9fc3fde21f556a1a0800000000000000
-      internalID: -6798652093107323655
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: coinStack_3
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 0
-        width: 47
-        height: 107
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 61e2396cd65d7d3e0800000000000000
-      internalID: -2028918439647433194
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: coinStack_4
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 0
-        width: 47
-        height: 125
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5f443a3e0792b1fe0800000000000000
-      internalID: -1217333709441383179
+      spriteID: e408bb32fd7134930800000000000000
+      internalID: 4126167930746142798
       vertices: []
       indices: 
       edges: []
@@ -260,12 +359,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      coinStack_0: -8040173535363486113
-      coinStack_1: 5752436113813919661
-      coinStack_2: -6798652093107323655
-      coinStack_3: -2028918439647433194
-      coinStack_4: -1217333709441383179
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
