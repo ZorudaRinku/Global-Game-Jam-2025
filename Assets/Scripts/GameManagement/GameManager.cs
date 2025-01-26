@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject bubble;
     private Animator _bubbleAnimator;
     private bool cancelPending;
+    private bool turnOrderSetClockwise;
     
     // Bubble Variables
     private int _bubblePopThreshold;
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
         _bubblePopThreshold = Random.Range(2, 10);
         _bubbleAnimator = bubble.GetComponent<Animator>();
         cancelPending = false;
+        turnOrderSetClockwise = false;
         Players = new List<GameObject>();
 
         // clears living states from previous game
@@ -70,7 +72,7 @@ public class GameManager : MonoBehaviour
             playerTemplates[i].PlayerAlive = true;
             playerObjects[i].SetActive(true);
             Players.Add(playerObjects[i]);
-            Debug.Log("Player " + i + " added successfully");
+            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[5]);
         }
 
         CurrentGameState = GameState.Game; // TODO: Change to Lobby when Menu is implemented
@@ -220,6 +222,26 @@ public class GameManager : MonoBehaviour
         }
     } // GiveItemsToPlayers
 
+    // Removes all inventory items from each player
+    public void RemoveItemsFromAllPlayers()
+    {
+        // loop through each player
+        for (int i = 0; i < numPlayers.numberOfPlayers; i++)
+        {
+            // verify player is alive before making changes
+            if (Players[i].GetComponent<Player>().alive)
+            {
+                // loop through each inventory slot, and delete each item
+                for (int j = 0; j < 4; j++)
+                {
+                    Players[i].GetComponent<Player>().RemoveItemFromInventory(j);
+                }
+            }
+        }
+        // give two items back to players. 
+        GiveItemsToPlayers();
+    } // RemoveItemsFromAllPlayers
+
     private void ReturnToMainMenu()
     {
         SceneManager.LoadScene("StartMenu");
@@ -229,6 +251,11 @@ public class GameManager : MonoBehaviour
     {
         cancelPending = value;
     } // SetCancelPending
+
+    public void SetTurnOrderSetClockwise(bool value)
+    {
+        turnOrderSetClockwise = value;
+    } // SetTurnOrderSetClockwise
 
     public GameObject GetCurrentPlayer()
     {
@@ -251,10 +278,16 @@ public class GameManager : MonoBehaviour
         int tempIndex = CurrentPlayerIndex;
         do
         {
-            tempIndex++;
+            // handles turn order direction
+            if (!turnOrderSetClockwise) tempIndex++;
+            else tempIndex--;
+
             if (tempIndex >= playerObjects.Length)
             {
                 tempIndex = 0;
+            } else if (tempIndex < 0)
+            {
+                tempIndex = playerObjects.Length - 1;
             }
         } while (!Players[tempIndex].GetComponent<Player>().alive);
 
@@ -266,4 +299,9 @@ public class GameManager : MonoBehaviour
         return cancelPending;
     } // GetCancelPending
     
+    public bool GetTurnOrderSetClockwise()
+    {
+        return turnOrderSetClockwise;
+    } // GetTurnOrderSetClockwise
+
 } // GameManager

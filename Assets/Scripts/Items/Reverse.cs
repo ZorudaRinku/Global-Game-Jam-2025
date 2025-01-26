@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Equalizer : MonoBehaviour, IItem
+public class Reverse : MonoBehaviour
 {
     [SerializeField] public Items itemType;
     private GameObject GameManager;
@@ -15,19 +15,11 @@ public class Equalizer : MonoBehaviour, IItem
         GameManager = GameObject.Find("GameManager");
     } // Start
 
+    // gets current turn order, and sets the opposite turn order in place
     public void UseItem()
     {
-        // trigger equalizer action in game manager
-        GameManager.GetComponent<GameManager>().RemoveItemsFromAllPlayers();
+        Debug.Log("Turn Order reversed!");
+        GameManager.GetComponent<GameManager>().SetTurnOrderSetClockwise(!GameManager.GetComponent<GameManager>().GetTurnOrderSetClockwise());
     } // UseItem
 
-    public string getItemName()
-    {
-        return itemName;
-    } // getItemName
-
-    public string getItemDescription()
-    {
-        return itemDescription;
-    } // getItemDescription
-}
+} // Reverse

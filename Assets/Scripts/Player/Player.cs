@@ -117,7 +117,7 @@ public class Player : MonoBehaviour
 
     public void RemoveItemFromInventory(int index)
     {
-        inventorySlots[index] = null;
+        if (inventorySlots[index] != null) inventorySlots[index] = null;
     } // RemoveItemFromInventory
 
     public bool GetDoublerPending()
