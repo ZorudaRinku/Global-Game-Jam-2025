@@ -3,7 +3,7 @@ using UnityEngine;
 public class Skip : MonoBehaviour, IItem
 {
     [SerializeField] public Items itemType;
-    [SerializeField] public GameObject GameManager;
+    private GameObject GameManager;
     private string itemDescription;
     private string itemName;
 
@@ -12,12 +12,13 @@ public class Skip : MonoBehaviour, IItem
         // initialize canvas text values
         itemName = itemType.itemName;
         itemDescription = itemType.itemDescription;
+        GameManager = GameObject.Find("GameManager");
     } // Start
 
     public void UseItem()
     {
-        //GameManager.GetComponent<GameManager>().Players[GameManager.GetComponent<GameManager>().GetCurrentPlayerIndex()].SetSkipItemUsed();
-        //GameManager.GetComponent<GameManager>().EndTurn();
+        GameManager.GetComponent<GameManager>().MoveToNextPlayer();
+        Destroy(this);
     } // UseItem
 
     public string getItemName()

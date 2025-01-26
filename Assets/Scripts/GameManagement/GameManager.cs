@@ -31,8 +31,9 @@ public class GameManager : MonoBehaviour
     [FormerlySerializedAs("UI")] [SerializeField] private GameObject ui;
     [SerializeField] private GameObject bubble;
     private Animator _bubbleAnimator;
+    private bool cancelPending;
     public List<GameObject> Players;
-
+    
     // Bubble Variables
     private int _bubblePopThreshold;
     private int _bubblePopCount;
@@ -51,10 +52,10 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
+        // initialization phase
         _bubblePopThreshold = Random.Range(2, 10);
         _bubbleAnimator = bubble.GetComponent<Animator>();
-
-        // player initialization phase
+        cancelPending = false;
         Players = new List<GameObject>();
 
         // clears living states from previous game
@@ -70,7 +71,8 @@ public class GameManager : MonoBehaviour
             playerObjects[i].SetActive(true);
             Players.Add(playerObjects[i]);
             Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
-            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
+            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[1]);
+            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[2]);
             Debug.Log("Player " + i + " added successfully");
         }
 
@@ -169,7 +171,7 @@ public class GameManager : MonoBehaviour
         }
     } // EndTurn
 
-    private void MoveToNextPlayer() // Move on to the next player
+    public void MoveToNextPlayer() // Move on to the next player
     {
         // Increment the current player index, skip dead players, and loop back to the first player if necessary
         do
@@ -218,13 +220,16 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("StartMenu");
     } // ReturnToMainMenu
 
-    // Getter for current player
+    public void SetCancelPending(bool value)
+    {
+        cancelPending = value;
+    } // SetCancelPending
 
+    // Getter for current player
     public GameObject GetCurrentPlayer()
     {
         return Players[CurrentPlayerIndex];
     } // GetCurrentPlayer
-
 
     public int GetBubbleStatus()
     {
@@ -235,5 +240,10 @@ public class GameManager : MonoBehaviour
     {
         return CurrentPlayerIndex;
     } // CurrentPlayerIndex
+
+    public bool GetCancelPending()
+    {
+        return cancelPending;
+    } // GetCancelPending
     
 } // GameManager

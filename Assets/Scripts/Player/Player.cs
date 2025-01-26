@@ -6,16 +6,17 @@ public class Player : MonoBehaviour
     [SerializeField] public PlayerTemplate playerNumber;
     public bool alive;
     public int number;
+    private GameObject GameManager;
     private int _currentPlayerSentObjects;
     [SerializeField] private GameObject throwObject;
     private InventorySlot[] inventorySlots = new InventorySlot[4];
-    private bool skipItemUsed;
 
     void Start()
     {
+        // initialization phase
         alive = playerNumber.PlayerAlive;
         number = playerNumber.playerNumber;
-        skipItemUsed = false;
+        GameManager = GameObject.Find("GameManager");
 
         for (int i = 0; i < 4; i++)
         {
@@ -36,23 +37,31 @@ public class Player : MonoBehaviour
     // End Turn
     public bool EndTurn()
     {
-        if (_currentPlayerSentObjects == 0 || skipItemUsed) return false; // Player should not be able to end their turn without throwing an object
+        if (_currentPlayerSentObjects == 0) return false; // Player should not be able to end their turn without throwing an object
         _currentPlayerSentObjects = 0;
         Debug.Log($"{transform.name} Ended Turn");
-        skipItemUsed = false;
         return true;
     } // EndTurn
 
     public void UseItem(int index)
     {
-
         Debug.Log("Using item at index: " + index);
         if (inventorySlots[index] == null) return; // Player should not be able to use an item that does not exist
+        
+        // prevent item use if a cancel item has previously been used
+        if (GameManager.GetComponent<GameManager>().GetCancelPending())
+        {
+            RemoveItemFromInventory(index);
+            GameManager.GetComponent<GameManager>().SetCancelPending(true);
+            return;
+        }
 
         // use item interface
         IItem item = inventorySlots[index].item.GetComponent<IItem>();
         item.UseItem();
-        inventorySlots[index] = null;
+
+        // destroy item after use and sort inventory
+        RemoveItemFromInventory(index);
         UpdateInventory();
     } // UseItem
 
@@ -77,11 +86,6 @@ public class Player : MonoBehaviour
         }
     } // UpdateInventory
 
-    public void SetSkipItemUsed()
-    {
-        skipItemUsed = true;
-    } // SetSkipItemUsed
-
     public void AddItemToInventory(GameObject itemToAdd)
     {
         for (int i = 0; i < inventorySlots.Length; i++)
@@ -94,6 +98,11 @@ public class Player : MonoBehaviour
             }
         }
     } // AddItemToInventory
+
+    public void RemoveItemFromInventory(int index)
+    {
+        inventorySlots[index] = null;
+    } // RemoveItemFromInventory
 
 } // Player
 
