@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Reverse : MonoBehaviour
+public class Reverse : MonoBehaviour, IItem
 {
     [SerializeField] public Items itemType;
     private GameObject GameManager;

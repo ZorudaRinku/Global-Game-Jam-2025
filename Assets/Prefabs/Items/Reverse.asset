@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d76908f73f373340a232721b4b1142e, type: 3}
   m_Name: Reverse
   m_EditorClassIdentifier: 
-  itemDescription: 
-  itemName: 
+  itemDescription: Reverses the turn order
+  itemName: Reverse

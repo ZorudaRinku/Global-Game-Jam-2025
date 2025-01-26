@@ -67,8 +67,9 @@ public class Player : MonoBehaviour
         }
 
         // use item interface
-        IItem item = inventorySlots[index].item.GetComponent<IItem>();
-        item.UseItem();
+        //IItem item = inventorySlots[index].item.GetComponent<IItem>();
+        //item.UseItem();
+        inventorySlots[index].item.GetComponent<IItem>().UseItem();
 
         // destroy item after use and sort inventory
         RemoveItemFromInventory(index);
