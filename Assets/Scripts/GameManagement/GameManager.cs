@@ -32,6 +32,13 @@ public class GameManager : MonoBehaviour
     [FormerlySerializedAs("UI")] [SerializeField] private GameObject ui;
     [SerializeField] private GameObject throwObject;
     [SerializeField] private GameObject bubble;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip bubblePop;
+    [SerializeField] private AudioClip bubbleRegen;
+    [SerializeField] private AudioClip loss; // || | |/ | |_
+    [SerializeField] private AudioClip win;
+    [SerializeField] private AudioClip useItem;
+    [SerializeField] private AudioClip nextPlayer;
     private Animator _bubbleAnimator;
     private bool cancelPending;
     private bool turnOrderSetClockwise;
@@ -73,7 +80,7 @@ public class GameManager : MonoBehaviour
             playerTemplates[i].PlayerAlive = true;
             playerObjects[i].SetActive(true);
             Players.Add(playerObjects[i]);
-            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
+//            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
         }
 
         CurrentGameState = GameState.Game; // TODO: Change to Lobby when Menu is implemented
@@ -86,7 +93,9 @@ public class GameManager : MonoBehaviour
         UpdateAnimators();
         
         // Subscribe to bubble animation notifications
+        bubble.GetComponent<Bubble>().OnBubblePopStarted += HandleBubbleStartPop; // After the bubble pop animation finishes, reset the round
         bubble.GetComponent<Bubble>().OnBubblePopFinished += HandleBubbleFinishPop; // After the bubble pop animation finishes, reset the round
+        bubble.GetComponent<Bubble>().OnBubbleResetStarted += HandleBubbleStartReset; // After the bubble reset animation finishes, start the next round
         bubble.GetComponent<Bubble>().OnBubbleResetFinished += HandleBubbleFinishReset; // After the bubble reset animation finishes, start the next round
     } // start
 
@@ -122,6 +131,11 @@ public class GameManager : MonoBehaviour
         
         Debug.Log("Bubble Hit " + _bubblePopCount + "/" + _bubblePopThreshold);
     } // HandleBubbleHit
+
+    private void HandleBubbleStartPop() // Triggered by Animation Event
+    {
+        audioSource.PlayOneShot(bubblePop);
+    }
     
     private void HandleBubbleFinishPop() // Triggered by Bubble.cs action event
     {
@@ -148,6 +162,7 @@ public class GameManager : MonoBehaviour
         if (alivePlayers == 1)
         {
             Debug.Log("Player " + winnerNumber + " wins!");
+            audioSource.PlayOneShot(win);
             CurrentGameState = GameState.Lobby;
             return;
         }
@@ -155,6 +170,11 @@ public class GameManager : MonoBehaviour
         // Reset the bubble
         _bubbleAnimator.SetTrigger("Reset");
     } // HandleBubbleFinishPop
+
+    private void HandleBubbleStartReset() // Triggered by Animation Event
+    {
+        audioSource.PlayOneShot(bubbleRegen);
+    } // HandleBubbleStartReset
     
     private void HandleBubbleFinishReset() // Triggered by Bubble.cs action event
     {
@@ -178,6 +198,7 @@ public class GameManager : MonoBehaviour
 
     public void MoveToNextPlayer() // Move on to the next player
     {
+        audioSource.PlayOneShot(nextPlayer);
         ResetInventoryUI();
         CurrentPlayerIndex = GetNextPlayerIndex();
         UpdateInventoryUI();
@@ -231,8 +252,11 @@ public class GameManager : MonoBehaviour
     public void InventoryUse(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
-        
-        Players[CurrentPlayerIndex].GetComponent<Player>().UseItem(currentInventoryIndex);
+
+        if (Players[CurrentPlayerIndex].GetComponent<Player>().UseItem(currentInventoryIndex))
+        {
+            audioSource.PlayOneShot(useItem);
+        }
         
         UpdateInventoryUI();
     } // InventoryUse
