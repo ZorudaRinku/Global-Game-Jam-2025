@@ -21,12 +21,12 @@ public class Equalizer : MonoBehaviour, IItem
         GameManager.GetComponent<GameManager>().RemoveItemsFromAllPlayers();
     } // UseItem
 
-    public string getItemName()
+    public string GetItemName()
     {
         return itemName;
     } // getItemName
 
-    public string getItemDescription()
+    public string GetItemDescription()
     {
         return itemDescription;
     } // getItemDescription

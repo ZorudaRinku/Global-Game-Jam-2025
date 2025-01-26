@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
     [FormerlySerializedAs("playertemplates")] [SerializeField] private PlayerTemplate[] playerTemplates;
     [FormerlySerializedAs("itemobjects")][SerializeField] private GameObject[] itemObjects;
     [FormerlySerializedAs("UI")] [SerializeField] private GameObject ui;
+    [SerializeField] public GameObject ItemNameText;
+    [SerializeField] public GameObject ItemDescriptionText;
     [SerializeField] private GameObject throwObject;
     [SerializeField] private GameObject bubble;
     private Animator _bubbleAnimator;
@@ -73,7 +76,7 @@ public class GameManager : MonoBehaviour
             playerTemplates[i].PlayerAlive = true;
             playerObjects[i].SetActive(true);
             Players.Add(playerObjects[i]);
-            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
+            //Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
         }
 
         CurrentGameState = GameState.Game; // TODO: Change to Lobby when Menu is implemented
@@ -204,15 +207,17 @@ public class GameManager : MonoBehaviour
     {
         ResetInventoryUI();
         Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(currentInventoryIndex).localScale = new Vector3(1.2f, 1.2f, 1.2f);
+
+        // Print Selected item name and description to the screen
+        ItemNameText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemName(currentInventoryIndex);
+        ItemDescriptionText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemDescription(currentInventoryIndex);
     } // UpdateInventoryUI
 
     public void InventoryLeft(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
         
-        Debug.Log("Inventory Index pre-decrement: " + currentInventoryIndex);
         currentInventoryIndex--;
-        Debug.Log("Inventory Index set to: " + currentInventoryIndex);
         if (currentInventoryIndex < 0)
         {
             currentInventoryIndex = 3;

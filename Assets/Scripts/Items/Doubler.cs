@@ -22,12 +22,12 @@ public class Doubler : MonoBehaviour, IItem
         Destroy(this);
     } // UseItem
 
-    public string getItemName()
+    public string GetItemName()
     {
         return itemName;
     } // getItemName
 
-    public string getItemDescription()
+    public string GetItemDescription()
     {
         return itemDescription;
     } // getItemDescription

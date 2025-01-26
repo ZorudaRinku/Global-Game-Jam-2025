@@ -58,12 +58,12 @@ public class Foresight : MonoBehaviour, IItem
         Destroy(this);
     } // OnAnimationFinish
 
-    public string getItemName()
+    public string GetItemName()
     {
         return itemName;
     } // getItemName
 
-    public string getItemDescription()
+    public string GetItemDescription()
     {
         return itemDescription;
     } // getItemDescription

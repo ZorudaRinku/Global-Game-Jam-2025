@@ -22,4 +22,14 @@ public class Reverse : MonoBehaviour, IItem
         GameManager.GetComponent<GameManager>().SetTurnOrderSetClockwise(!GameManager.GetComponent<GameManager>().GetTurnOrderSetClockwise());
     } // UseItem
 
+    public string GetItemName()
+    {
+        return itemName;
+    } // getItemName
+
+    public string GetItemDescription()
+    {
+        return itemDescription;
+    } // getItemDescription
+
 } // Reverse

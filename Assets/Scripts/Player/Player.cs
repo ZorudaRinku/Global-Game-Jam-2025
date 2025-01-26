@@ -142,6 +142,22 @@ public class Player : MonoBehaviour
         return doublerPending;
     } // GetDoublerPending
 
+    public string GetItemName(int index)
+    {
+        string itemName;
+        if (inventorySlots[index] == null) itemName = "No Item";
+        else itemName = inventorySlots[index].item.GetComponent<IItem>().GetItemName();
+        return itemName;
+    } // GetItemName
+
+    public string GetItemDescription(int index)
+    {
+        string itemDescription;
+        if (inventorySlots[index] == null) itemDescription = "No Description";
+        else itemDescription = inventorySlots[index].item.GetComponent<IItem>().GetItemDescription();
+        return itemDescription;
+    } // GetItemName
+
 } // Player
 
 public class InventorySlot
