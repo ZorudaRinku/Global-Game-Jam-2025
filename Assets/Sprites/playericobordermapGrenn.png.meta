@@ -519,8 +519,8 @@ TextureImporter:
       name: playericobordermapGrenn_17
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 64
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -533,6 +533,28 @@ TextureImporter:
       bones: []
       spriteID: a7e905180f4166b46920ca07dc9c8e8d
       internalID: 1063538449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playericobordermapGrenn_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52d8efafd6365ef48964aa7ece9788f9
+      internalID: 1446605528
       vertices: []
       indices: 
       edges: []
@@ -561,6 +583,7 @@ TextureImporter:
       playericobordermapGrenn_15: -544571311
       playericobordermapGrenn_16: -2132241
       playericobordermapGrenn_17: 1063538449
+      playericobordermapGrenn_18: 1446605528
       playericobordermapGrenn_2: -3662230655629440856
       playericobordermapGrenn_3: -1452690179192450282
       playericobordermapGrenn_4: 6436995750383530289
