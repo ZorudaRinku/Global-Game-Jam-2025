@@ -17,6 +17,13 @@ public class Skip : MonoBehaviour, IItem
 
     public void UseItem()
     {
+        // if player has doublerPending status, skip only ends one of their turns
+        if (GameManager.GetComponent<GameManager>().Players[GameManager.GetComponent<GameManager>().GetCurrentPlayerIndex()].GetComponent<Player>().GetDoublerPending())
+        {
+            GameManager.GetComponent<GameManager>().Players[GameManager.GetComponent<GameManager>().GetCurrentPlayerIndex()].GetComponent<Player>().SetDoublerPending(false);
+        }
+
+        // proceed to next player and destroy this item
         GameManager.GetComponent<GameManager>().MoveToNextPlayer();
         Destroy(this);
     } // UseItem

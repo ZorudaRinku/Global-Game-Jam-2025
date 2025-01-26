@@ -23,16 +23,16 @@ public class GameManager : MonoBehaviour
 {
     // Player Controls/Turn Order
     public NumPlayers numPlayers;
+    public List<GameObject> Players;
     public int CurrentPlayerIndex { get; private set; }
     [FormerlySerializedAs("_players")] [SerializeField] private GameObject[] playerObjects;
     [FormerlySerializedAs("playertemplates")] [SerializeField] private PlayerTemplate[] playerTemplates;
     [FormerlySerializedAs("itemobjects")][SerializeField] private GameObject[] itemObjects;
-    [SerializeField] private GameObject throwObject;
     [FormerlySerializedAs("UI")] [SerializeField] private GameObject ui;
+    [SerializeField] private GameObject throwObject;
     [SerializeField] private GameObject bubble;
     private Animator _bubbleAnimator;
     private bool cancelPending;
-    public List<GameObject> Players;
     
     // Bubble Variables
     private int _bubblePopThreshold;
@@ -59,26 +59,26 @@ public class GameManager : MonoBehaviour
         Players = new List<GameObject>();
 
         // clears living states from previous game
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             playerTemplates[i].PlayerAlive = false;
         }
 
         // enables however many players were selected in main menu
-        for(int i = 0; i < numPlayers.numberOfPlayers; i++)
+        for (int i = 0; i < numPlayers.numberOfPlayers; i++)
         {
             playerTemplates[i].PlayerAlive = true;
             playerObjects[i].SetActive(true);
             Players.Add(playerObjects[i]);
-            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
-            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[1]);
-            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[2]);
             Debug.Log("Player " + i + " added successfully");
         }
 
         CurrentGameState = GameState.Game; // TODO: Change to Lobby when Menu is implemented
         CurrentRoundState = RoundState.InProgress;
-        
+
+        // give starting items to players
+        GiveItemsToPlayers();
+
         // Subscribe to bubble animation notifications
         bubble.GetComponent<Bubble>().OnBubblePopFinished += HandleBubbleFinishPop; // After the bubble pop animation finishes, reset the round
         bubble.GetComponent<Bubble>().OnBubbleResetFinished += HandleBubbleFinishReset; // After the bubble reset animation finishes, start the next round
@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
     {
         _bubblePopCount = 0;
         _bubblePopThreshold = Random.Range(2, 10);
+        GiveItemsToPlayers();
         CurrentRoundState = RoundState.InProgress;
     } // HandleBubbleFinishReset
 
@@ -162,7 +163,6 @@ public class GameManager : MonoBehaviour
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
         if (GameObject.Find("ThrowObject(Clone)") != null) return; // Player should not be able to end their turn while the object is still in the air
         if (CurrentRoundState != RoundState.InProgress) return; // Player should not be able to end their turn while the bubble is popping or resetting
-
         if (Players[CurrentPlayerIndex].GetComponent<Player>().EndTurn())
         {
             MoveToNextPlayer();
@@ -173,15 +173,7 @@ public class GameManager : MonoBehaviour
 
     public void MoveToNextPlayer() // Move on to the next player
     {
-        // Increment the current player index, skip dead players, and loop back to the first player if necessary
-        do
-        {
-            CurrentPlayerIndex++;
-            if (CurrentPlayerIndex >= playerObjects.Length)
-            {
-                CurrentPlayerIndex = 0;
-            }
-        } while (!Players[CurrentPlayerIndex].GetComponent<Player>().alive);
+        CurrentPlayerIndex = GetNextPlayerIndex();
     } // MoveToNextPlayer
 
     public void InventoryLeft(InputAction.CallbackContext context)
@@ -213,7 +205,20 @@ public class GameManager : MonoBehaviour
         Players[CurrentPlayerIndex].GetComponent<Player>().UseItem(currentInventoryIndex);
     } // InventoryUse
 
-    // Helpers
+    // Grants two random items to each player that is alive
+    public void GiveItemsToPlayers()
+    {
+        // loop through players, only granting items to players that are alive
+        for (int i = 0; i < Players.Length; i++)
+        {
+            if (Players[i].GetComponent<Player>().alive)
+            {
+                // give two random items to current player
+                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects([Random.Range(0, itemObjects.Length - 1)]));
+                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects([Random.Range(0, itemObjects.Length - 1)]));
+            }
+        }
+    } // GiveItemsToPlayers
 
     private void ReturnToMainMenu()
     {
@@ -225,7 +230,6 @@ public class GameManager : MonoBehaviour
         cancelPending = value;
     } // SetCancelPending
 
-    // Getter for current player
     public GameObject GetCurrentPlayer()
     {
         return Players[CurrentPlayerIndex];
@@ -240,6 +244,22 @@ public class GameManager : MonoBehaviour
     {
         return CurrentPlayerIndex;
     } // CurrentPlayerIndex
+
+    public int GetNextPlayerIndex()
+    {
+        // Increment the current player index, skip dead players, and loop back to the first player if necessary
+        int tempIndex = CurrentPlayerIndex;
+        do
+        {
+            tempIndex++;
+            if (tempIndex >= playerObjects.Length)
+            {
+                tempIndex = 0;
+            }
+        } while (!Players[tempIndex].GetComponent<Player>().alive);
+
+        return tempIndex;
+    } // GetNextPlayerIndex
 
     public bool GetCancelPending()
     {

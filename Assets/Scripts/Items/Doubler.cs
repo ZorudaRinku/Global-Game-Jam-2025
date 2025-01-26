@@ -3,7 +3,7 @@ using UnityEngine;
 public class Doubler : MonoBehaviour, IItem
 {
     [SerializeField] public Items itemType;
-    [SerializeField] public GameObject GameManager;
+    private GameObject GameManager;
     private string itemDescription;
     private string itemName;
 
@@ -12,11 +12,14 @@ public class Doubler : MonoBehaviour, IItem
         // initialize canvas text values
         itemName = itemType.itemName;
         itemDescription = itemType.itemDescription;
+        GameManager = GameObject.Find("GameManager");
     } // Start
 
     public void UseItem()
     {
-        return;
+        // set doublerPending status on upcoming player
+        GameManager.GetComponent<GameManager>().Players[GameManager.GetComponent<GameManager>().GetNextPlayerIndex()].GetComponent<Player>().SetDoublerPending(true);
+        Destroy(this);
     } // UseItem
 
     public string getItemName()
@@ -28,4 +31,4 @@ public class Doubler : MonoBehaviour, IItem
     {
         return itemDescription;
     } // getItemDescription
-}
+} // Doubler

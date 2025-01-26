@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private int _currentPlayerSentObjects;
     [SerializeField] private GameObject throwObject;
     private InventorySlot[] inventorySlots = new InventorySlot[4];
+    private bool doublerPending;
 
     void Start()
     {
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
         alive = playerNumber.PlayerAlive;
         number = playerNumber.playerNumber;
         GameManager = GameObject.Find("GameManager");
+        doublerPending = false;
 
         for (int i = 0; i < 4; i++)
         {
@@ -37,6 +39,13 @@ public class Player : MonoBehaviour
     // End Turn
     public bool EndTurn()
     {
+        // if player was hit with a doubler, it resets their turn when they end turn and clears doubler status
+        if (doublerPending)
+        {
+            doublerPending = false;
+            _currentPlayerSentObjects = 0;
+            return false;
+        }
         if (_currentPlayerSentObjects == 0) return false; // Player should not be able to end their turn without throwing an object
         _currentPlayerSentObjects = 0;
         Debug.Log($"{transform.name} Ended Turn");
@@ -51,8 +60,9 @@ public class Player : MonoBehaviour
         // prevent item use if a cancel item has previously been used
         if (GameManager.GetComponent<GameManager>().GetCancelPending())
         {
+            Debug.Log("Item use cancelled");
             RemoveItemFromInventory(index);
-            GameManager.GetComponent<GameManager>().SetCancelPending(true);
+            GameManager.GetComponent<GameManager>().SetCancelPending(false);
             return;
         }
 
@@ -99,10 +109,21 @@ public class Player : MonoBehaviour
         }
     } // AddItemToInventory
 
+    public void SetDoublerPending(bool value)
+    {
+        Debug.Log("Doubler status set for player " + playerNumber);
+        doublerPending = value;
+    } // SetDoublerPending
+
     public void RemoveItemFromInventory(int index)
     {
         inventorySlots[index] = null;
     } // RemoveItemFromInventory
+
+    public bool GetDoublerPending()
+    {
+        return doublerPending;
+    } // GetDoublerPending
 
 } // Player
 

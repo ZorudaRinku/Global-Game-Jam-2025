@@ -58,6 +58,7 @@ public class Foresight : MonoBehaviour, IItem
         
     } // GetBubbleStatus
 
+    // triggered when FadeInText animation completes
     public void OnAnimationFinish()
     {
         Destroy(this);

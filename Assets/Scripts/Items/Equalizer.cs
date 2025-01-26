@@ -3,7 +3,7 @@ using UnityEngine;
 public class Equalizer : MonoBehaviour, IItem
 {
     [SerializeField] public Items itemType;
-    [SerializeField] public GameObject GameManager;
+    private GameObject GameManager;
     private string itemDescription;
     private string itemName;
 
@@ -12,6 +12,7 @@ public class Equalizer : MonoBehaviour, IItem
         // initialize canvas text values
         itemName = itemType.itemName;
         itemDescription = itemType.itemDescription;
+        GameManager = GameObject.Find("GameManager");
     } // Start
 
     public void UseItem()
