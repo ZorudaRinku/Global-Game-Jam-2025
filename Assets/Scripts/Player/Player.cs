@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
             // check for emptry inventory slots
             if (inventorySlots[i] == null)
             {
-                inventorySlots[i] = new InventorySlot(itemToAdd);
+                inventorySlots[i] = new InventorySlot(Instantiate(itemToAdd, Vector3.zero, Quaternion.identity, transform));
                 break;
             }
         }

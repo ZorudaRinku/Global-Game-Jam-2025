@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
             playerObjects[i].SetActive(true);
             Players.Add(playerObjects[i]);
             Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
+            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
             Debug.Log("Player " + i + " added successfully");
         }
 

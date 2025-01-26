@@ -5,7 +5,8 @@ using UnityEngine;
 public class Foresight : MonoBehaviour, IItem
 {
     [SerializeField] public Items itemType;
-    [SerializeField] public GameObject GameManager;
+    private GameObject textPosition;
+    private GameObject GameManager;
     private TMP_Text foresightText;
     private Animator textAnimator;
     private string itemName;
@@ -14,13 +15,15 @@ public class Foresight : MonoBehaviour, IItem
 
     public void Start()
     {
-        // initialize text fade animator
+        // initialization phase
         textAnimator = GetComponent<Animator>();
-        // initialize TMP element
         foresightText = GetComponent<TMP_Text>();
-        // initialize canvas text values
+        GameManager = GameObject.Find("GameManager");
+        textPosition = GameObject.Find("HeaderTextPosition");
         itemName = itemType.itemName;
         itemDescription = itemType.itemDescription;
+
+        transform.position = textPosition.transform.position;
     } // Start
 
     public void UseItem()
