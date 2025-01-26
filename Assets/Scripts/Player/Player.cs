@@ -1,5 +1,8 @@
 using System;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +14,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject throwObject;
     private InventorySlot[] inventorySlots = new InventorySlot[4];
     private bool doublerPending;
+    [SerializeField] private Sprite[] pileSprites; 
+    [SerializeField] private GameObject cup;
 
     void Start()
     {
@@ -31,12 +36,20 @@ public class Player : MonoBehaviour
     // instantiate and throw the throwable object
     public GameObject ThrowObject()
     {
-        GameObject throwable = Instantiate(throwObject, transform.GetChild(2).transform.position, Quaternion.identity); // Spawn throwable object at player's hand
-        throwable.transform.SetParent(transform.parent); // Set the throwable object as a child of the UI or else it will not be visible
+        Vector3 spawnPoint = transform.GetChild(2).TransformPoint(new Vector3(0, transform.GetChild(3).GetComponent<RectTransform>().rect.height, 0));
+        GameObject throwable = Instantiate(throwObject, spawnPoint, Quaternion.identity, cup.transform); // Spawn throwable object at player's hand
+        throwable.transform.SetSiblingIndex(1); // Set the sibling index to 0 to place it at the top of the hierarchy
         Debug.Log($"{transform.name} Threw Object");
         _currentPlayerSentObjects++;
+        UpdatePile();
         return throwable;
     } // ThrowObject
+
+    private void UpdatePile()
+    {
+        Image pile = transform.GetChild(2).GetComponent<Image>();
+        pile.sprite = pileSprites[Mathf.Clamp(4 - _currentPlayerSentObjects / 2, 0, 4)];
+    }
     
     // End Turn
     public bool EndTurn()
@@ -51,6 +64,7 @@ public class Player : MonoBehaviour
 
         if (_currentPlayerSentObjects == 0) return false; // Player should not be able to end their turn without throwing an object
         _currentPlayerSentObjects = 0;
+        UpdatePile();
         Debug.Log($"{transform.name} Ended Turn");
 
         return true;

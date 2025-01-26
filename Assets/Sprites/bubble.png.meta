@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b66d86972cb561e49afb79150a6b4e1f
+guid: f9f64e917703f8540adfbe5af25b3723
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -138,10 +138,10 @@ TextureImporter:
       name: bubble_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 23
-        width: 18
-        height: 18
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,10 +160,10 @@ TextureImporter:
       name: bubble_1
       rect:
         serializedVersion: 2
-        x: 79
-        y: 15
-        width: 34
-        height: 34
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,10 +182,10 @@ TextureImporter:
       name: bubble_2
       rect:
         serializedVersion: 2
-        x: 135
-        y: 7
-        width: 50
-        height: 50
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,9 +204,9 @@ TextureImporter:
       name: bubble_3
       rect:
         serializedVersion: 2
-        x: 191
+        x: 192
         y: 0
-        width: 65
+        width: 64
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -226,7 +226,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ef57384fcf183c9489f3b32f968c994c
     internalID: 0
     vertices: []
     indices: 

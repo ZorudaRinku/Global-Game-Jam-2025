@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public enum GameState
@@ -80,7 +81,10 @@ public class GameManager : MonoBehaviour
 
         // give starting items to players
         GiveItemsToPlayers();
-
+        
+        UpdateInventoryUI();
+        UpdateAnimators();
+        
         // Subscribe to bubble animation notifications
         bubble.GetComponent<Bubble>().OnBubblePopFinished += HandleBubbleFinishPop; // After the bubble pop animation finishes, reset the round
         bubble.GetComponent<Bubble>().OnBubbleResetFinished += HandleBubbleFinishReset; // After the bubble reset animation finishes, start the next round
@@ -169,15 +173,37 @@ public class GameManager : MonoBehaviour
         {
             MoveToNextPlayer();
             Debug.Log(Players[CurrentPlayerIndex].name + " Ended Turn");
-            return;
         }
     } // EndTurn
 
     public void MoveToNextPlayer() // Move on to the next player
     {
+        ResetInventoryUI();
         CurrentPlayerIndex = GetNextPlayerIndex();
+        UpdateInventoryUI();
+        UpdateAnimators();
     } // MoveToNextPlayer
+    
+    private void UpdateAnimators()
+    {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            Players[i].transform.GetChild(1).GetComponent<Animator>().SetBool("Active", i == CurrentPlayerIndex);
+        }
+    }
 
+    private void ResetInventoryUI()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(i).localScale = new Vector3(1, 1, 1);
+        }
+    }
+    private void UpdateInventoryUI()
+    {
+        ResetInventoryUI();
+        Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(currentInventoryIndex).localScale = new Vector3(1.2f, 1.2f, 1.2f);
+    }
     public void InventoryLeft(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
@@ -187,6 +213,7 @@ public class GameManager : MonoBehaviour
         {
             currentInventoryIndex = 3;
         }
+        UpdateInventoryUI();
     } // InventoryLeft
     
     public void InventoryRight(InputAction.CallbackContext context)
@@ -198,6 +225,7 @@ public class GameManager : MonoBehaviour
         {
             currentInventoryIndex = 0;
         }
+        UpdateInventoryUI();
     } // InventoryRight
 
     public void InventoryUse(InputAction.CallbackContext context)
@@ -205,6 +233,8 @@ public class GameManager : MonoBehaviour
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
         
         Players[CurrentPlayerIndex].GetComponent<Player>().UseItem(currentInventoryIndex);
+        
+        UpdateInventoryUI();
     } // InventoryUse
 
     // Grants two random items to each player that is alive

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b569a9ae0acf06c4f8459f0898937e99
+guid: b7ceb92b5e467124c88410fc86f6915d
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -49,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -141,10 +141,10 @@ TextureImporter:
       name: coinStack_0
       rect:
         serializedVersion: 2
-        x: 8
+        x: 9
         y: 0
-        width: 37
-        height: 32
+        width: 35
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,10 +163,10 @@ TextureImporter:
       name: coinStack_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 65
         y: 0
-        width: 38
-        height: 53
+        width: 36
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,10 +185,10 @@ TextureImporter:
       name: coinStack_2
       rect:
         serializedVersion: 2
-        x: 113
+        x: 114
         y: 0
-        width: 46
-        height: 74
+        width: 44
+        height: 73
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,10 +207,10 @@ TextureImporter:
       name: coinStack_3
       rect:
         serializedVersion: 2
-        x: 169
+        x: 170
         y: 0
-        width: 47
-        height: 107
+        width: 45
+        height: 106
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,10 +229,10 @@ TextureImporter:
       name: coinStack_4
       rect:
         serializedVersion: 2
-        x: 225
+        x: 226
         y: 0
-        width: 47
-        height: 125
+        width: 45
+        height: 124
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -251,7 +251,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7675c984d3da8a14ab2ba5519a24186c
     internalID: 0
     vertices: []
     indices: 
