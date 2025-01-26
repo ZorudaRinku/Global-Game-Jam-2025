@@ -151,10 +151,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numPlayers: {fileID: 11400000, guid: bf26cc5c27a19ef44abef8dd58da4596, type: 2}
   Players:
-  - {fileID: 9019565165040909701, guid: 778526ba1bc93b44b987b5aafbc8cfd3, type: 3}
-  - {fileID: 9019565165040909701, guid: bf024604b5a8e1e468d04269a45d0ad0, type: 3}
-  - {fileID: 9019565165040909701, guid: 3fad2f830f563c246bbc08334ac6de8a, type: 3}
-  - {fileID: 9019565165040909701, guid: c4e39337186c672429cea4acb0d133de, type: 3}
+  - {fileID: 5662451730572836841}
+  - {fileID: 556008666}
+  - {fileID: 1279842905}
+  - {fileID: 767350200}
   playerObjects:
   - {fileID: 5662451730572836841}
   - {fileID: 556008666}

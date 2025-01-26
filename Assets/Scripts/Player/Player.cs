@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     private GameObject GameManager;
     private int _currentPlayerSentObjects;
     [SerializeField] private GameObject throwObject;
+    [SerializeField] private GameObject[] itemContainers;
     private InventorySlot[] inventorySlots = new InventorySlot[4];
     private bool doublerPending;
     [SerializeField] private Sprite[] pileSprites; 
@@ -24,13 +25,7 @@ public class Player : MonoBehaviour
         number = playerNumber.playerNumber;
         GameManager = GameObject.Find("GameManager");
         doublerPending = false;
-
-        /*
-        for (int i = 0; i < 4; i++)
-        {
-            _inventoryGameObjects[i] = transform.GetChild(3).GetChild(i).gameObject;
-        }
-        */
+        UpdateInventory();
     } // Start
 
     // instantiate and throw the throwable object
@@ -114,10 +109,19 @@ public class Player : MonoBehaviour
             }
         }
         */
+
+        for (int i = 0; i < 4; i++)
+        {
+            Color color = itemContainers[i].GetComponent<Image>().color;
+            color.a = 0;
+            itemContainers[i].GetComponent<Image>().color = color;
+        }
+
     } // UpdateInventory
 
     public void AddItemToInventory(GameObject itemToAdd)
     {
+        Debug.Log("Adding " + itemToAdd + " to " + playerNumber);
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             // check for empty inventory slots
@@ -125,7 +129,6 @@ public class Player : MonoBehaviour
             {
                 InventorySlot tempItem = new InventorySlot(Instantiate(itemToAdd, Vector3.zero, Quaternion.identity, transform));
                 inventorySlots[i] = tempItem;
-                //inventorySlots[i] = new InventorySlot(Instantiate(itemToAdd, Vector3.zero, Quaternion.identity, transform));
                 break;
             }
         }
