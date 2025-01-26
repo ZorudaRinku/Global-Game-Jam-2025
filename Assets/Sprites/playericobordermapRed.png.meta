@@ -519,8 +519,8 @@ TextureImporter:
       name: playericobordermapRed_17
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 64
+        y: 64
         width: 64
         height: 64
       alignment: 0
@@ -533,6 +533,28 @@ TextureImporter:
       bones: []
       spriteID: 1480c4cb0229c0b4885c27879a19cea4
       internalID: 2074714148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playericobordermapRed_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10f14d5e646f63e498e8c9d6b4beb9ef
+      internalID: 178304453
       vertices: []
       indices: 
       edges: []
@@ -561,6 +583,7 @@ TextureImporter:
       playericobordermapRed_15: -1814046603
       playericobordermapRed_16: -1924865282
       playericobordermapRed_17: 2074714148
+      playericobordermapRed_18: 178304453
       playericobordermapRed_2: -8050116996315767284
       playericobordermapRed_3: 1236221287803584310
       playericobordermapRed_4: 813606074546103131
