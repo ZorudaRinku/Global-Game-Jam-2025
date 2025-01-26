@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public int CurrentPlayerIndex { get; private set; }
     [FormerlySerializedAs("_players")] [SerializeField] private GameObject[] playerObjects;
     [FormerlySerializedAs("playertemplates")] [SerializeField] private PlayerTemplate[] playerTemplates;
+    [FormerlySerializedAs("itemobjects")][SerializeField] private GameObject[] itemObjects;
     [SerializeField] private GameObject throwObject;
     [FormerlySerializedAs("UI")] [SerializeField] private GameObject ui;
     [SerializeField] private GameObject bubble;
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
             playerTemplates[i].PlayerAlive = true;
             playerObjects[i].SetActive(true);
             Players.Add(playerObjects[i]);
+            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
             Debug.Log("Player " + i + " added successfully");
         }
 
@@ -177,7 +179,6 @@ public class GameManager : MonoBehaviour
                 CurrentPlayerIndex = 0;
             }
         } while (!Players[CurrentPlayerIndex].GetComponent<Player>().alive);
-        // while (!playerTemplates[CurrentPlayerIndex].PlayerAlive);
     } // MoveToNextPlayer
 
     public void InventoryLeft(InputAction.CallbackContext context)
@@ -189,7 +190,7 @@ public class GameManager : MonoBehaviour
         {
             currentInventoryIndex = 3;
         }
-    }
+    } // InventoryLeft
     
     public void InventoryRight(InputAction.CallbackContext context)
     {
@@ -200,14 +201,14 @@ public class GameManager : MonoBehaviour
         {
             currentInventoryIndex = 0;
         }
-    }
+    } // InventoryRight
 
     public void InventoryUse(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
         
         Players[CurrentPlayerIndex].GetComponent<Player>().UseItem(currentInventoryIndex);
-    }
+    } // InventoryUse
 
     // Helpers
 
@@ -228,5 +229,10 @@ public class GameManager : MonoBehaviour
     {
         return _bubblePopThreshold - _bubblePopCount;
     } // GetBubbleStatus
+
+    public int GetCurrentPlayerIndex()
+    {
+        return CurrentPlayerIndex;
+    } // CurrentPlayerIndex
     
 } // GameManager

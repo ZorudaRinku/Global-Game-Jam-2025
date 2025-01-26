@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d76908f73f373340a232721b4b1142e, type: 3}
   m_Name: Cancel
   m_EditorClassIdentifier: 
-  itemDescription: 
-  itemName: 
+  itemDescription: Cancels the next item used by any player.
+  itemName: Cancel
