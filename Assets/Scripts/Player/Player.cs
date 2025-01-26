@@ -70,10 +70,10 @@ public class Player : MonoBehaviour
         return true;
     } // EndTurn
 
-    public void UseItem(int index)
+    public bool UseItem(int index)
     {
         Debug.Log("Using item at index: " + index);
-        if (inventorySlots[index] == null) return; // Player should not be able to use an item that does not exist
+        if (inventorySlots[index] == null) return false; // Player should not be able to use an item that does not exist
         
         // prevent item use if a cancel item has previously been used
         if (GameManager.GetComponent<GameManager>().GetCancelPending())
@@ -81,7 +81,7 @@ public class Player : MonoBehaviour
             Debug.Log("Item use cancelled");
             RemoveItemFromInventory(index);
             GameManager.GetComponent<GameManager>().SetCancelPending(false);
-            return;
+            return false;
         }
 
         // use item interface
@@ -90,6 +90,7 @@ public class Player : MonoBehaviour
         // destroy item after use and sort inventory
         RemoveItemFromInventory(index);
         UpdateInventory();
+        return true;
     } // UseItem
 
     public void UpdateInventory()
