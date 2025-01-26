@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
             playerTemplates[i].PlayerAlive = true;
             playerObjects[i].SetActive(true);
             Players.Add(playerObjects[i]);
-            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[5]);
+            Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
         }
 
         CurrentGameState = GameState.Game; // TODO: Change to Lobby when Menu is implemented

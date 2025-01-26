@@ -20,10 +20,12 @@ public class Player : MonoBehaviour
         GameManager = GameObject.Find("GameManager");
         doublerPending = false;
 
+        /*
         for (int i = 0; i < 4; i++)
         {
-            //_inventoryGameObjects[i] = transform.GetChild(3).GetChild(i).gameObject;
+            _inventoryGameObjects[i] = transform.GetChild(3).GetChild(i).gameObject;
         }
+        */
     } // Start
 
     // instantiate and throw the throwable object
@@ -46,9 +48,11 @@ public class Player : MonoBehaviour
             _currentPlayerSentObjects = 0;
             return false;
         }
+
         if (_currentPlayerSentObjects == 0) return false; // Player should not be able to end their turn without throwing an object
         _currentPlayerSentObjects = 0;
         Debug.Log($"{transform.name} Ended Turn");
+
         return true;
     } // EndTurn
 
@@ -67,8 +71,6 @@ public class Player : MonoBehaviour
         }
 
         // use item interface
-        //IItem item = inventorySlots[index].item.GetComponent<IItem>();
-        //item.UseItem();
         inventorySlots[index].item.GetComponent<IItem>().UseItem();
 
         // destroy item after use and sort inventory
@@ -101,7 +103,7 @@ public class Player : MonoBehaviour
     {
         for (int i = 0; i < inventorySlots.Length; i++)
         {
-            // check for emptry inventory slots
+            // check for empty inventory slots
             if (inventorySlots[i] == null)
             {
                 inventorySlots[i] = new InventorySlot(Instantiate(itemToAdd, Vector3.zero, Quaternion.identity, transform));

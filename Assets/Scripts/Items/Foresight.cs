@@ -11,7 +11,6 @@ public class Foresight : MonoBehaviour, IItem
     private Animator textAnimator;
     private string itemName;
     private string itemDescription;
-    
 
     public void Start()
     {
@@ -22,25 +21,21 @@ public class Foresight : MonoBehaviour, IItem
         textPosition = GameObject.Find("HeaderTextPosition");
         itemName = itemType.itemName;
         itemDescription = itemType.itemDescription;
-
-        transform.position = textPosition.transform.position;
+        transform.position = textPosition.transform.position; // sets foresight text position
     } // Start
 
     public void UseItem()
     {
-        Debug.Log("Using Foresight");
         // set the text for foresight
         foresightText.text = GenerateForesightText();
 
         // play text fade in animation
         textAnimator.SetTrigger("TriggerFadeIn");
-
     } // UseItem
 
     // determines how close the bubble is to popping
     public string GenerateForesightText()
     {
-        
         // intialization
         string textToPrint;
 
@@ -55,8 +50,7 @@ public class Foresight : MonoBehaviour, IItem
         }
 
         return textToPrint;
-        
-    } // GetBubbleStatus
+    } // GenerateForesightText
 
     // triggered when FadeInText animation completes
     public void OnAnimationFinish()
