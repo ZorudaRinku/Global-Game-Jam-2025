@@ -120,6 +120,7 @@ public class GameManager : MonoBehaviour
     {
         // Set the current player to dead as the bubble has popped
         Players[CurrentPlayerIndex].GetComponent<Player>().alive = false;
+        Players[CurrentPlayerIndex].transform.GetChild(1).GetComponent<Animator>().SetBool("Dead", true);
 
         // Move on to the next player
         MoveToNextPlayer();
