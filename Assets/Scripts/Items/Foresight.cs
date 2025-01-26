@@ -12,10 +12,8 @@ public class Foresight : MonoBehaviour
 
     public void Start()
     {
-
         // initialize text fade animator
-        textAnimator = GetComponent<textAnimator>();
-
+        textAnimator = GetComponent<Animator>();
         // initialize canvas text values
         itemName.text = itemType.itemName;
         itemDescription.text = itemType.itemDescription;
@@ -37,13 +35,12 @@ public class Foresight : MonoBehaviour
     {
         
         // intialization
-        int bubbleStatus = GameManager.GetComponent<GameManager>().GetBubbleStatus();
         string textToPrint;
 
         // if bubble is not going to pop on next hit
-        if (bubbleStatus > 0)
+        if (GameManager.GetComponent<GameManager>().GetBubbleStatus() > 0)
         {
-            textToPrint = "Bubble can take " + bubbleStatus + " more hits.";
+            textToPrint = "Bubble will not pop on next throw.";
         }
         else
         {
