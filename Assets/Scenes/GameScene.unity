@@ -155,7 +155,6 @@ MonoBehaviour:
   - {fileID: 9019565164107314129}
   - {fileID: 9019565163631910277}
   - {fileID: 9019565163720424065}
-  playerPrefab: {fileID: 9019565165040909701, guid: 778526ba1bc93b44b987b5aafbc8cfd3, type: 3}
   playerTemplates:
   - {fileID: 11400000, guid: 5db900a370adfc64d99b1bd16dc240a3, type: 2}
   - {fileID: 11400000, guid: 00d70ec486a1b0f42b7d5d22be703f53, type: 2}
@@ -169,6 +168,7 @@ MonoBehaviour:
   - {fileID: 9019565165040909701, guid: bf024604b5a8e1e468d04269a45d0ad0, type: 3}
   - {fileID: 9019565165040909701, guid: 3fad2f830f563c246bbc08334ac6de8a, type: 3}
   - {fileID: 9019565165040909701, guid: c4e39337186c672429cea4acb0d133de, type: 3}
+  currentInventoryIndex: 0
 --- !u!4 &138086984
 Transform:
   m_ObjectHideFlags: 0
@@ -250,11 +250,35 @@ MonoBehaviour:
     m_ActionId: 5ae20afb-e41d-4059-8f3c-61ec39f6e7d7
     m_ActionName: 'PlayerControls/Down[/XInputControllerWindows/dpad/down,/Keyboard/s,/Keyboard/downArrow]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 138086983}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: InventoryLeft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 59bf5251-d6d8-4790-b72f-8ae7556e489c
     m_ActionName: 'PlayerControls/Left[/XInputControllerWindows/dpad/left,/Keyboard/a,/Keyboard/leftArrow]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 138086983}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: InventoryRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: a98625ad-368d-45e2-9461-c33dc6efcfa0
     m_ActionName: 'PlayerControls/Right[/XInputControllerWindows/dpad/right,/Keyboard/d,/Keyboard/rightArrow]'
   m_NeverAutoSwitchControlSchemes: 0
@@ -368,6 +392,7 @@ RectTransform:
   - {fileID: 2180169213261735771}
   - {fileID: 369935802}
   - {fileID: 1275667967}
+  - {fileID: 1181228050}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -680,6 +705,95 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1181228049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1181228050}
+  - component: {fileID: 1181228053}
+  - component: {fileID: 1181228052}
+  - component: {fileID: 1181228051}
+  m_Layer: 5
+  m_Name: ItemIndicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1181228050
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181228049}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 405125159}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 25, y: 25}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1181228051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181228049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01810e45322b5b5498342de6e9ec09a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 138086983}
+--- !u!114 &1181228052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181228049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.509434, g: 0.06488074, b: 0.06488074, a: 0.6117647}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1181228053
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181228049}
+  m_CullTransparentMesh: 1
 --- !u!224 &1275667967 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7936986669357283039, guid: d14a2891ebc30f946a96ed1174dee52f, type: 3}
@@ -852,6 +966,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player2
       objectReference: {fileID: 0}
+    - target: {fileID: 3081566522303573046, guid: 1119c3810133ff943955a1ee7ce828fd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -974,6 +1092,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player4
       objectReference: {fileID: 0}
+    - target: {fileID: 3003702683406477502, guid: 64b4432f81c8a784e9420cc9a18ed16e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5037548871503608999, guid: 64b4432f81c8a784e9420cc9a18ed16e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1095,6 +1217,10 @@ PrefabInstance:
     - target: {fileID: 314263229940843940, guid: 142f969bd77f46244a57b6bf005bdd9d, type: 3}
       propertyPath: m_Name
       value: Player3
+      objectReference: {fileID: 0}
+    - target: {fileID: 314263229940843940, guid: 142f969bd77f46244a57b6bf005bdd9d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3718875443746353201, guid: 142f969bd77f46244a57b6bf005bdd9d, type: 3}
       propertyPath: m_Pivot.x

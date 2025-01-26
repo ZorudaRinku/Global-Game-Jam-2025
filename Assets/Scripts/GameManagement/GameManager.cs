@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
@@ -23,9 +24,7 @@ public class GameManager : MonoBehaviour
     // Player Controls/Turn Order
     public NumPlayers numPlayers;
     public int CurrentPlayerIndex { get; private set; }
-    private int _currentPlayerSentObjects;
     [FormerlySerializedAs("_players")] [SerializeField] private GameObject[] playerObjects;
-    [SerializeField] private GameObject playerPrefab;
     [FormerlySerializedAs("playertemplates")] [SerializeField] private PlayerTemplate[] playerTemplates;
     [SerializeField] private GameObject throwObject;
     [FormerlySerializedAs("UI")] [SerializeField] private GameObject ui;
@@ -36,6 +35,9 @@ public class GameManager : MonoBehaviour
     // Bubble Variables
     private int _bubblePopThreshold;
     private int _bubblePopCount;
+    
+    // Inventory Variables
+    public int currentInventoryIndex;
 
     // State Machine
 
@@ -63,12 +65,11 @@ public class GameManager : MonoBehaviour
         // enables however many players were selected in main menu
         for(int i = 0; i < numPlayers.numberOfPlayers; i++)
         {
+            playerTemplates[i].PlayerAlive = true;
             playerObjects[i].SetActive(true);
             Players.Add(playerObjects[i]);
-            playerTemplates[i].PlayerAlive = true;
             Debug.Log("Player " + i + " added successfully");
         }
-
 
         CurrentGameState = GameState.Game; // TODO: Change to Lobby when Menu is implemented
         CurrentRoundState = RoundState.InProgress;
@@ -82,16 +83,18 @@ public class GameManager : MonoBehaviour
     
     public void ThrowObject(InputAction.CallbackContext context) // Triggered by Input Manager (Space or A)
     {
+        // check if game is over before throwing object
+        if (CurrentGameState == GameState.Lobby)
+        {
+            ReturnToMainMenu();
+        }
+
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
         
         if (CurrentRoundState != RoundState.InProgress) return; // Player should not be able to throw object while the bubble is popping or resetting
-        
-        GameObject throwable = Instantiate(throwObject, Players[CurrentPlayerIndex].transform.GetChild(2).transform.position, Quaternion.identity); // Spawn throwable object at player's hand
-        throwable.transform.SetParent(ui.transform); // Set the throwable object as a child of the UI or else it will not be visible
+
+        GameObject throwable = Players[CurrentPlayerIndex].GetComponent<Player>().ThrowObject();
         throwable.GetComponent<ThrowObject>().OnThrowObjectHitBubble += HandleBubbleHit; // Subscribe to the event of the object hitting the bubble
-        _currentPlayerSentObjects++;
-        
-        Debug.Log($"{Players[CurrentPlayerIndex].name} Threw Object");
     } // ThrowObject
 
     private void HandleBubbleHit() // Triggered by ThrowObject.cs action event
@@ -112,25 +115,28 @@ public class GameManager : MonoBehaviour
     private void HandleBubbleFinishPop() // Triggered by Bubble.cs action event
     {
         // Set the current player to dead as the bubble has popped
-        playerTemplates[CurrentPlayerIndex].PlayerAlive = false;
+        Players[CurrentPlayerIndex].GetComponent<Player>().alive = false;
 
         // Move on to the next player
         MoveToNextPlayer();
         
-        // Check if there is only one player left
         int alivePlayers = 0;
-
-        foreach (var player in playerTemplates)
+        int winnerNumber = 0;
+        
+        // Check if there is only one player left
+        foreach (var player in Players)
         {
-            if (player.PlayerAlive)
+            if (player.GetComponent<Player>().alive)
             {
                 alivePlayers++;
+                winnerNumber = player.GetComponent<Player>().number;
             }
         }
 
+        // set game state to end if only one player remains
         if (alivePlayers == 1)
         {
-            Debug.Log("Game Over");
+            Debug.Log("Player " + winnerNumber + " wins!");
             CurrentGameState = GameState.Lobby;
             return;
         }
@@ -149,16 +155,15 @@ public class GameManager : MonoBehaviour
     public void EndTurn(InputAction.CallbackContext context) // Triggered by Input Manager (Enter or B)
     {
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
-
         if (GameObject.Find("ThrowObject(Clone)") != null) return; // Player should not be able to end their turn while the object is still in the air
-        
         if (CurrentRoundState != RoundState.InProgress) return; // Player should not be able to end their turn while the bubble is popping or resetting
-        
-        if (_currentPlayerSentObjects == 0) return; // Player should not be able to end their turn without throwing an object
 
-        Debug.Log(Players[CurrentPlayerIndex].name + " Ended Turn");
-
-        MoveToNextPlayer();
+        if (Players[CurrentPlayerIndex].GetComponent<Player>().EndTurn())
+        {
+            MoveToNextPlayer();
+            Debug.Log(Players[CurrentPlayerIndex].name + " Ended Turn");
+            return;
+        }
     } // EndTurn
 
     private void MoveToNextPlayer() // Move on to the next player
@@ -171,9 +176,38 @@ public class GameManager : MonoBehaviour
             {
                 CurrentPlayerIndex = 0;
             }
-        } while (!playerTemplates[CurrentPlayerIndex].PlayerAlive);
-        _currentPlayerSentObjects = 0;
+        } while (!Players[CurrentPlayerIndex].GetComponent<Player>().alive);
+        // while (!playerTemplates[CurrentPlayerIndex].PlayerAlive);
     } // MoveToNextPlayer
+
+    public void InventoryLeft(InputAction.CallbackContext context)
+    {
+        if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
+        
+        currentInventoryIndex--;
+        if (currentInventoryIndex < 0)
+        {
+            currentInventoryIndex = 3;
+        }
+    }
+    
+    public void InventoryRight(InputAction.CallbackContext context)
+    {
+        if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
+        
+        currentInventoryIndex++;
+        if (currentInventoryIndex > 3)
+        {
+            currentInventoryIndex = 0;
+        }
+    }
+
+    public void InventoryUse(InputAction.CallbackContext context)
+    {
+        if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
+        
+        Players[CurrentPlayerIndex].GetComponent<Player>().UseItem(currentInventoryIndex);
+    }
 
     // Helpers
     
@@ -183,5 +217,10 @@ public class GameManager : MonoBehaviour
     {
         return Players[CurrentPlayerIndex];
     } // GetCurrentPlayer
+
+    private void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("StartMenu");
+    } // ReturnToMainMenu
     
 } // GameManager
