@@ -210,17 +210,23 @@ public class GameManager : MonoBehaviour
     }
 
     // Helpers
-    
-    // Getter for current player
-    
-    public GameObject GetCurrentPlayer()
-    {
-        return Players[CurrentPlayerIndex];
-    } // GetCurrentPlayer
 
     private void ReturnToMainMenu()
     {
         SceneManager.LoadScene("StartMenu");
     } // ReturnToMainMenu
+
+    // Getter for current player
+
+    public GameObject GetCurrentPlayer()
+    {
+        return Players[CurrentPlayerIndex];
+    } // GetCurrentPlayer
+
+
+    public int GetBubbleStatus()
+    {
+        return _bubblePopThreshold - _bubblePopCount;
+    } // GetBubbleStatus
     
 } // GameManager
