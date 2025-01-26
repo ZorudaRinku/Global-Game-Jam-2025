@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
 
         // give starting items to players
         GiveItemsToPlayers();
-        
+        PrintItemText();
         UpdateInventoryUI();
         UpdateAnimators();
         
@@ -207,10 +207,7 @@ public class GameManager : MonoBehaviour
     {
         ResetInventoryUI();
         Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(currentInventoryIndex).localScale = new Vector3(1.2f, 1.2f, 1.2f);
-
-        // Print Selected item name and description to the screen
-        ItemNameText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemName(currentInventoryIndex);
-        ItemDescriptionText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemDescription(currentInventoryIndex);
+        PrintItemText();
     } // UpdateInventoryUI
 
     public void InventoryLeft(InputAction.CallbackContext context)
@@ -342,5 +339,12 @@ public class GameManager : MonoBehaviour
     {
         return turnOrderSetClockwise;
     } // GetTurnOrderSetClockwise
+
+    // Print Selected item name and description to the screen
+    private void PrintItemText()
+    {
+        ItemNameText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemName(currentInventoryIndex);
+        ItemDescriptionText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemDescription(currentInventoryIndex);
+    } // PrintItemText
 
 } // GameManager
