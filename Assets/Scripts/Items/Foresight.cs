@@ -55,7 +55,7 @@ public class Foresight : MonoBehaviour, IItem
     // triggered when FadeInText animation completes
     public void OnAnimationFinish()
     {
-        Destroy(this);
+        //Destroy(this);
     } // OnAnimationFinish
 
     public string GetItemName()

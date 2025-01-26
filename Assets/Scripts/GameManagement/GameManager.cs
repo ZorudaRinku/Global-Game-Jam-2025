@@ -76,7 +76,6 @@ public class GameManager : MonoBehaviour
             playerTemplates[i].PlayerAlive = true;
             playerObjects[i].SetActive(true);
             Players.Add(playerObjects[i]);
-            //Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[0]);
         }
 
         CurrentGameState = GameState.Game; // TODO: Change to Lobby when Menu is implemented
@@ -206,8 +205,8 @@ public class GameManager : MonoBehaviour
     private void UpdateInventoryUI()   
     {
         ResetInventoryUI();
+        ResetItemText();
         Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(currentInventoryIndex).localScale = new Vector3(1.2f, 1.2f, 1.2f);
-        PrintItemText();
     } // UpdateInventoryUI
 
     public void InventoryLeft(InputAction.CallbackContext context)
@@ -219,7 +218,9 @@ public class GameManager : MonoBehaviour
         {
             currentInventoryIndex = 3;
         }
+
         UpdateInventoryUI();
+        PrintItemText();
     } // InventoryLeft
     
     public void InventoryRight(InputAction.CallbackContext context)
@@ -231,7 +232,9 @@ public class GameManager : MonoBehaviour
         {
             currentInventoryIndex = 0;
         }
+
         UpdateInventoryUI();
+        PrintItemText();
     } // InventoryRight
 
     public void InventoryUse(InputAction.CallbackContext context)
@@ -252,8 +255,8 @@ public class GameManager : MonoBehaviour
             if (Players[i].GetComponent<Player>().alive)
             {
                 // give two random items to current player
-                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[Random.Range(0, itemObjects.Length - 1)]);
-                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[Random.Range(0, itemObjects.Length - 1)]);
+                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[Random.Range(0, itemObjects.Length)]);
+                Players[i].GetComponent<Player>().AddItemToInventory(itemObjects[Random.Range(0, itemObjects.Length)]);
             }
         }
     } // GiveItemsToPlayers
@@ -346,5 +349,11 @@ public class GameManager : MonoBehaviour
         ItemNameText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemName(currentInventoryIndex);
         ItemDescriptionText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemDescription(currentInventoryIndex);
     } // PrintItemText
+
+    private void ResetItemText()
+    {
+        ItemNameText.GetComponent<TextMeshProUGUI>().text = null;
+        ItemDescriptionText.GetComponent<TextMeshProUGUI>().text = null;
+    } // ResetItemText
 
 } // GameManager

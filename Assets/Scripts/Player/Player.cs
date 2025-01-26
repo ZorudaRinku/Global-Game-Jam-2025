@@ -94,6 +94,7 @@ public class Player : MonoBehaviour
 
     public void UpdateInventory()
     {
+        /*
         // Move the inventory game objects to the correct position (i.e. if the first item in _inventory is null, move the 2nd inventory game object to the first position, etc)
         for (int inventoryIndex = 0; inventoryIndex < 4; inventoryIndex++)
         {
@@ -111,6 +112,7 @@ public class Player : MonoBehaviour
                 }
             }
         }
+        */
     } // UpdateInventory
 
     public void AddItemToInventory(GameObject itemToAdd)
@@ -120,7 +122,9 @@ public class Player : MonoBehaviour
             // check for empty inventory slots
             if (inventorySlots[i] == null)
             {
-                inventorySlots[i] = new InventorySlot(Instantiate(itemToAdd, Vector3.zero, Quaternion.identity, transform));
+                InventorySlot tempItem = new InventorySlot(Instantiate(itemToAdd, Vector3.zero, Quaternion.identity, transform));
+                inventorySlots[i] = tempItem;
+                //inventorySlots[i] = new InventorySlot(Instantiate(itemToAdd, Vector3.zero, Quaternion.identity, transform));
                 break;
             }
         }
