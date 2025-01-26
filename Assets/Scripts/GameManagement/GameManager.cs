@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
         {
             Players[i].transform.GetChild(1).GetComponent<Animator>().SetBool("Active", i == CurrentPlayerIndex);
         }
-    }
+    } // UpdateAnimators
 
     private void ResetInventoryUI()
     {
@@ -198,17 +198,21 @@ public class GameManager : MonoBehaviour
         {
             Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(i).localScale = new Vector3(1, 1, 1);
         }
-    }
-    private void UpdateInventoryUI()
+    } // ResetInventoryUI
+
+    private void UpdateInventoryUI()   
     {
         ResetInventoryUI();
         Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(currentInventoryIndex).localScale = new Vector3(1.2f, 1.2f, 1.2f);
-    }
+    } // UpdateInventoryUI
+
     public void InventoryLeft(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
         
+        Debug.Log("Inventory Index pre-decrement: " + currentInventoryIndex);
         currentInventoryIndex--;
+        Debug.Log("Inventory Index set to: " + currentInventoryIndex);
         if (currentInventoryIndex < 0)
         {
             currentInventoryIndex = 3;
