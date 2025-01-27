@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
             // check for empty inventory slots
             if (inventorySlots[i] == null)
             {
-                InventorySlot tempItem = new InventorySlot(Instantiate(itemToAdd, Vector3.zero, Quaternion.identity, transform));
+                InventorySlot tempItem = new InventorySlot(Instantiate(itemToAdd, transform.GetChild(3).GetChild(i).position, Quaternion.identity, transform.GetChild(3).GetChild(i)));
                 inventorySlots[i] = tempItem;
                 break;
             }
@@ -142,7 +142,11 @@ public class Player : MonoBehaviour
 
     public void RemoveItemFromInventory(int index)
     {
-        if (inventorySlots[index] != null) inventorySlots[index] = null;
+        if (inventorySlots[index] != null)
+        {
+            Destroy(inventorySlots[index].item);
+            inventorySlots[index] = null;
+        }
     } // RemoveItemFromInventory
 
     public bool GetDoublerPending()

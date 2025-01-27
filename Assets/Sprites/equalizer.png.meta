@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 0d90d865bc15c4f439ac7629beffc064
+guid: db6f606f5f18784429ffb6e6fa91fe1f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5339594771551565258
-    second: Quit4_0
-  - first:
-      213: 7350094292983059881
-    second: Quit4_1
-  - first:
-      213: -5329370956699825708
-    second: Quit4_2
+      213: 3254907974900880654
+    second: equalizer_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -119,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Quit4_0
+      name: equalizer_0
       rect:
         serializedVersion: 2
-        x: 26
-        y: 37
-        width: 15
-        height: 21
+        x: 0
+        y: 1
+        width: 32
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,52 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 63ac22d78d2f5e5b0800000000000000
-      internalID: -5339594771551565258
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Quit4_1
-      rect:
-        serializedVersion: 2
-        x: 38
-        y: 37
-        width: 16
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9a591e621d7c00660800000000000000
-      internalID: 7350094292983059881
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Quit4_2
-      rect:
-        serializedVersion: 2
-        x: 51
-        y: 38
-        width: 22
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4d98f91e9554a06b0800000000000000
-      internalID: -5329370956699825708
+      spriteID: e059d84de81cb2d20800000000000000
+      internalID: 3254907974900880654
       vertices: []
       indices: 
       edges: []
@@ -198,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Quit4_0: -5339594771551565258
-      Quit4_1: 7350094292983059881
-      Quit4_2: -5329370956699825708
+      equalizer_0: 3254907974900880654
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
