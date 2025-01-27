@@ -40,7 +40,7 @@ public class Foresight : MonoBehaviour, IItem
         string textToPrint;
 
         // if bubble is not going to pop on next hit
-        if (GameManager.GetComponent<GameManager>().GetBubbleStatus() > 0)
+        if (GameManager.GetComponent<GameManager>().GetBubbleStatus() > 1)
         {
             textToPrint = "Bubble will not pop on next throw.";
         }
