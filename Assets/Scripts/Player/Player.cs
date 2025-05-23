@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
         alive = playerNumber.PlayerAlive;
         number = playerNumber.playerNumber;
         GameManager = GameObject.Find("GameManager");
-        doublerPending = false;
         UpdateInventory();
     } // Start
 
@@ -49,15 +48,8 @@ public class Player : MonoBehaviour
     // End Turn
     public bool EndTurn()
     {
-        // if player was hit with a doubler, it resets their turn when they end turn and clears doubler status
-        if (doublerPending)
-        {
-            doublerPending = false;
-            _currentPlayerSentObjects = 0;
-            return false;
-        }
-
-        if (_currentPlayerSentObjects == 0) return false; // Player should not be able to end their turn without throwing an object
+        if (_currentPlayerSentObjects == 0 || (doublerPending && _currentPlayerSentObjects < 2)) return false; // Player should not be able to end their turn without throwing an object
+        doublerPending = false; // reset doubler status
         _currentPlayerSentObjects = 0;
         UpdatePile();
         Debug.Log($"{transform.name} Ended Turn");
