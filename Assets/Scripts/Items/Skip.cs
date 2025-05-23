@@ -30,11 +30,19 @@ public class Skip : MonoBehaviour, IItem
 
     public string GetItemName()
     {
+        if (itemName == null)
+        {
+            itemName = itemType.itemName;
+        }
         return itemName;
     } // getItemName
 
     public string GetItemDescription()
     {
+        if (itemDescription == null)
+        {
+            itemDescription = itemType.itemDescription;
+        }
         return itemDescription;
     } // getItemDescription
 } // Skip

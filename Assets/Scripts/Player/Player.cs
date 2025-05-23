@@ -170,6 +170,11 @@ public class Player : MonoBehaviour
         return itemDescription;
     } // GetItemName
 
+    public bool IsInventorySlotEmpty(int index)
+    {
+        return inventorySlots[index] == null;
+    }
+
 } // Player
 
 public class InventorySlot

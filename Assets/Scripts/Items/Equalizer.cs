@@ -23,11 +23,19 @@ public class Equalizer : MonoBehaviour, IItem
 
     public string GetItemName()
     {
+        if (itemName == null) // Unfortunately, this method gets called before Start() is called, so we need to check if itemName is null
+        {
+            itemName = itemType.itemName;
+        }
         return itemName;
     } // getItemName
 
     public string GetItemDescription()
     {
+        if (itemDescription == null) // Unfortunately, this method gets called before Start() is called, so we need to check if itemDescription is null
+        {
+            itemDescription = itemType.itemDescription;
+        }
         return itemDescription;
     } // getItemDescription
 }

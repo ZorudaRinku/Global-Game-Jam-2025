@@ -11,6 +11,7 @@ public class Reverse : MonoBehaviour, IItem
     {
         // initialize canvas text values
         itemName = itemType.itemName;
+        Debug.Log("Item Name: " + itemName);
         itemDescription = itemType.itemDescription;
         GameManager = GameObject.Find("GameManager");
     } // Start
@@ -24,11 +25,19 @@ public class Reverse : MonoBehaviour, IItem
 
     public string GetItemName()
     {
+        if (itemName == null)
+        {
+            itemName = itemType.itemName;
+        }
         return itemName;
     } // getItemName
 
     public string GetItemDescription()
     {
+        if (itemDescription == null)
+        {
+            itemDescription = itemType.itemDescription;
+        }
         return itemDescription;
     } // getItemDescription
 

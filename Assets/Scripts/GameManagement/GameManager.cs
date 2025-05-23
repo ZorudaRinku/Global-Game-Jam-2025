@@ -90,9 +90,9 @@ public class GameManager : MonoBehaviour
 
         // give starting items to players
         GiveItemsToPlayers();
-        PrintItemText();
         UpdateInventoryUI();
         UpdateAnimators();
+        PrintItemText();
         
         // Subscribe to bubble animation notifications
         bubble.GetComponent<Bubble>().OnBubblePopStarted += HandleBubbleStartPop; // After the bubble pop animation finishes, reset the round
@@ -202,9 +202,9 @@ public class GameManager : MonoBehaviour
     public void MoveToNextPlayer() // Move on to the next player
     {
         audioSource.PlayOneShot(nextPlayer);
-        ResetInventoryUI();
         CurrentPlayerIndex = GetNextPlayerIndex();
         UpdateInventoryUI();
+        PrintItemText();
         UpdateAnimators();
     } // MoveToNextPlayer
     
@@ -227,33 +227,57 @@ public class GameManager : MonoBehaviour
     private void UpdateInventoryUI()   
     {
         ResetInventoryUI();
-        ResetItemText();
-        Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(currentInventoryIndex).localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        // Check if the current player has an item in the selected inventory slot
+        if (Players[CurrentPlayerIndex].GetComponent<Player>().IsInventorySlotEmpty(currentInventoryIndex))
+        {
+            // If the slot is empty, reset the item text
+            ResetItemText();
+        }
+        else
+        {
+            Players[CurrentPlayerIndex].transform.GetChild(3).GetChild(currentInventoryIndex).localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        }
     } // UpdateInventoryUI
 
     public void InventoryLeft(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
-        
-        currentInventoryIndex--;
-        if (currentInventoryIndex < 0)
+
+        int startIdx = currentInventoryIndex;
+        do
         {
-            currentInventoryIndex = 3;
-        }
+            currentInventoryIndex--;
+            if (currentInventoryIndex < 0)
+            {
+                currentInventoryIndex = 3;
+            }
+            // Check if slot is not empty
+            var player = Players[CurrentPlayerIndex].GetComponent<Player>();
+            if (!player.IsInventorySlotEmpty(currentInventoryIndex))
+                break;
+        } while (currentInventoryIndex != startIdx);
 
         UpdateInventoryUI();
         PrintItemText();
     } // InventoryLeft
-    
+
     public void InventoryRight(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Started) return; // Prevents Input Manager from calling this method multiple times
-        
-        currentInventoryIndex++;
-        if (currentInventoryIndex > 3)
+
+        int startIdx = currentInventoryIndex;
+        do
         {
-            currentInventoryIndex = 0;
-        }
+            currentInventoryIndex++;
+            if (currentInventoryIndex > 3)
+            {
+                currentInventoryIndex = 0;
+            }
+            // Check if slot is not empty
+            var player = Players[CurrentPlayerIndex].GetComponent<Player>();
+            if (!player.IsInventorySlotEmpty(currentInventoryIndex))
+                break;
+        } while (currentInventoryIndex != startIdx);
 
         UpdateInventoryUI();
         PrintItemText();
@@ -267,8 +291,25 @@ public class GameManager : MonoBehaviour
         {
             audioSource.PlayOneShot(useItem);
         }
+
+        // Move to the next item in the inventory
+        int startIdx = currentInventoryIndex;
+        do
+        {
+            currentInventoryIndex++;
+            if (currentInventoryIndex > 3)
+            {
+                currentInventoryIndex = 0;
+            }
+            // Check if slot is not empty
+            var player = Players[CurrentPlayerIndex].GetComponent<Player>();
+            if (!player.IsInventorySlotEmpty(currentInventoryIndex))
+                break;
+        } while (currentInventoryIndex != startIdx);
+
         
         UpdateInventoryUI();
+        PrintItemText();
     } // InventoryUse
 
     // Grants two random items to each player that is alive
@@ -373,6 +414,11 @@ public class GameManager : MonoBehaviour
     // Print Selected item name and description to the screen
     private void PrintItemText()
     {
+        if (Players[CurrentPlayerIndex].GetComponent<Player>().IsInventorySlotEmpty(currentInventoryIndex))
+        {
+            ResetItemText();
+            return;
+        }
         ItemNameText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemName(currentInventoryIndex);
         ItemDescriptionText.GetComponent<TextMeshProUGUI>().text = Players[CurrentPlayerIndex].GetComponent<Player>().GetItemDescription(currentInventoryIndex);
     } // PrintItemText
