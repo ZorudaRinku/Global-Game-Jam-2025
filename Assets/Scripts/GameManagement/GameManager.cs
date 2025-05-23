@@ -201,6 +201,7 @@ public class GameManager : MonoBehaviour
 
     public void MoveToNextPlayer() // Move on to the next player
     {
+        ResetInventoryUI();
         audioSource.PlayOneShot(nextPlayer);
         CurrentPlayerIndex = GetNextPlayerIndex();
         UpdateInventoryUI();
@@ -307,7 +308,7 @@ public class GameManager : MonoBehaviour
                 break;
         } while (currentInventoryIndex != startIdx);
 
-        
+
         UpdateInventoryUI();
         PrintItemText();
     } // InventoryUse
