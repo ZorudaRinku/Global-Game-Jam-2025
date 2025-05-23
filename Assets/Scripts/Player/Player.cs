@@ -30,8 +30,9 @@ public class Player : MonoBehaviour
     // instantiate and throw the throwable object
     public GameObject ThrowObject()
     {
-        Vector3 spawnPoint = transform.GetChild(2).TransformPoint(new Vector3(0, transform.GetChild(3).GetComponent<RectTransform>().rect.height, 0));
-        GameObject throwable = Instantiate(throwObject, spawnPoint, Quaternion.identity, cup.transform); // Spawn throwable object at player's hand
+        Vector3 spawnPosition = transform.GetChild(2).position;
+        spawnPosition.y += transform.GetChild(2).GetComponent<Image>().sprite.rect.height / 2;
+        GameObject throwable = Instantiate(throwObject, spawnPosition, Quaternion.identity, cup.transform); // Spawn throwable object at player's hand
         throwable.transform.SetSiblingIndex(1); // Set the sibling index to 0 to place it at the top of the hierarchy
         Debug.Log($"{transform.name} Threw Object");
         _currentPlayerSentObjects++;
