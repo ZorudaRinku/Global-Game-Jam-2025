@@ -6,12 +6,13 @@ public class PlayerIndicator : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        transform.position = gameManager.GetCurrentPlayer().transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = gameManager.GetCurrentPlayer().transform.position;
+        Vector3 targetPosition = gameManager.GetCurrentPlayer().transform.position;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 5f);
     }
 }
